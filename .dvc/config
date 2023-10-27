@@ -1,0 +1,4 @@
+[core]
+    remote = cccpythonclass
+['remote "cccpythonclass"']
+    url = gdrive://161PoXswYiEpLK4SOkJfigdOmx48vHjV5
