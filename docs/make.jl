@@ -6,20 +6,20 @@ DocMeta.setdocmeta!(BasicProgrammingNCUES1121, :DocTestSetup, :(using BasicProgr
 makedocs(;
     modules=[BasicProgrammingNCUES1121],
     authors="okatsn <okatsn@gmail.com> and contributors",
-    repo="https://github.com/okatsn/BasicProgrammingNCUES1121.jl/blob/{commit}{path}#{line}",
-    sitename="BasicProgrammingNCUES1121.jl",
+    repo="https://github.com/okatsn/BasicProgramming-NCUES-112-1/blob/{commit}{path}#{line}",
+    sitename="基礎程式設計-NCUES-112-1",
     format=Documenter.HTML(;
         prettyurls=get(ENV, "CI", "false") == "true",
-        canonical="https://okatsn.github.io/BasicProgrammingNCUES1121.jl",
+        canonical="https://okatsn.github.io/BasicProgramming-NCUES-112-1",
         edit_link="main",
-        assets=String[],
+        assets=String[]
     ),
     pages=[
         "Home" => "index.md",
-    ],
+    ]
 )
 
 deploydocs(;
-    repo="github.com/okatsn/BasicProgrammingNCUES1121.jl",
-    devbranch="main",
+    repo="github.com/okatsn/BasicProgramming-NCUES-112-1",
+    devbranch="main"
 )

@@ -1,15 +1,15 @@
 # BasicProgrammingNCUES1121
 
-[![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://okatsn.github.io/BasicProgrammingNCUES1121.jl/stable/)
-[![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://okatsn.github.io/BasicProgrammingNCUES1121.jl/dev/)
-[![Build Status](https://github.com/okatsn/BasicProgrammingNCUES1121.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/okatsn/BasicProgrammingNCUES1121.jl/actions/workflows/CI.yml?query=branch%3Amain)
+[![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://okatsn.github.io/BasicProgramming-NCUES-112-1/stable/)
+[![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://okatsn.github.io/BasicProgramming-NCUES-112-1/dev/)
+[![Build Status](https://github.com/okatsn/BasicProgramming-NCUES-112-1/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/okatsn/BasicProgramming-NCUES-112-1/actions/workflows/CI.yml?query=branch%3Amain)
 
 <!-- Don't have any of your custom contents above; they won't occur if there is no citation. -->
 
 ## Documentation Badge is here:
 
-[![](https://img.shields.io/badge/docs-stable-blue.svg)](https://okatsn.github.io/BasicProgrammingNCUES1121.jl/stable)
-[![](https://img.shields.io/badge/docs-dev-blue.svg)](https://okatsn.github.io/BasicProgrammingNCUES1121.jl/dev)
+[![](https://img.shields.io/badge/docs-stable-blue.svg)](https://okatsn.github.io/BasicProgramming-NCUES-112-1/stable)
+[![](https://img.shields.io/badge/docs-dev-blue.svg)](https://okatsn.github.io/BasicProgramming-NCUES-112-1/dev)
 
 > See [Documenter.jl: Documentation Versions](https://documenter.juliadocs.org/dev/man/hosting/#Documentation-Versions)
 
@@ -18,7 +18,7 @@
 This is a julia package created using `okatsn`'s preference, and this package is expected to be registered to [okatsn/OkRegistry](https://github.com/okatsn/OkRegistry) for CIs to work properly.
 
 !!! note Checklist
-    - [ ] Create an empty repository (namely, `https://github.com/okatsn/BasicProgrammingNCUES1121.jl.git`) on github, and push the local to origin. See [connecting to remote](#tips-for-connecting-to-remote).
+    - [ ] Create an empty repository (namely, `https://github.com/okatsn/BasicProgramming-NCUES-112-1.git`) on github, and push the local to origin. See [connecting to remote](#tips-for-connecting-to-remote).
     - [ ] Add `ACCESS_OKREGISTRY` secret in the settings of this repository on Github, or delete both `register.yml` and `TagBot.yml` in `/.github/workflows/`. See [Auto-Registration](#auto-registration).
 
 
@@ -29,7 +29,7 @@ This is a julia package created using `okatsn`'s preference, and this package is
 ## References
 
 ### Auto-Registration
-- You have to add `ACCESS_OKREGISTRY` to the secret under the remote repo (e.g., https://github.com/okatsn/BasicProgrammingNCUES1121.jl).
+- You have to add `ACCESS_OKREGISTRY` to the secret under the remote repo (e.g., https://github.com/okatsn/BasicProgramming-NCUES-112-1).
 - `ACCESS_OKREGISTRY` allows `CI.yml` to automatically register/update this package to [okatsn/OkRegistry](https://github.com/okatsn/OkRegistry).
 
 ### Test
