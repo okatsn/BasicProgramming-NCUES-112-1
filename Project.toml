@@ -1,0 +1,13 @@
+name = "BasicProgrammingNCUES1121"
+uuid = "fa27ac20-bec5-4afc-9c34-43d8d1b4033a"
+authors = ["okatsn <okatsn@gmail.com> and contributors"]
+version = "1.0.0-DEV"
+
+[compat]
+julia = "1.9"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
