@@ -1,0 +1,5 @@
+outs:
+- md5: 9de13e545ecd85a862cd7511a1132b1a
+  size: 714700
+  hash: md5
+  path: README_pretty.pdf
