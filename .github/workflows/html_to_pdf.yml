@@ -6,7 +6,7 @@ permissions:
 on:
   push:
     branches:
-      - testing-ci2 # Delete me after testing is over
+      # - testing-ci2 # Delete me after testing is over
       - main
     # paths:
     #     - docs/src/**
@@ -27,19 +27,21 @@ jobs:
         with:
           htmlPath: dev/info/index.html
           pdfName: temp
-
+          # This results in ./dist/temp.pdf
+          # See https://github.com/markwilson/html2pdf/blob/master/entrypoint.sh
       - name: Commit and push PDF to main
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "github-actions"
           git fetch
           git checkout main
-          cp dist/temp.pdf README.pdf
-          git add README.pdf
-          git commit -m "Update README.pdf"
+          cp dist/temp.pdf README_html.pdf
+          git add README_html.pdf
+          git commit -m "Update README_html.pdf"
         shell: bash
       - name: Push pdf
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: main
+# CHECKPOINT: Basically, this CI successfully build PDF. However, "chrome-headless-render-pdf" does not intrinsically contain CJK characters (since it is big); you have to install the font first.
