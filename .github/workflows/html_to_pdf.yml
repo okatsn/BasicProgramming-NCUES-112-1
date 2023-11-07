@@ -19,3 +19,15 @@ jobs:
           htmlFile: ./dev/index.html
           outputFile: ./README.pdf
           pdfOptions: '{"format": "A4", "margin": {"top": "10mm", "left": "10mm", "right": "10mm", "bottom": "10mm"}}'
+      - name: commit pdf
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "github-actions"
+          git add README.pdf
+          git commit -m "Update README.pdf"
+        shell: bash
+      - name: Push pdf
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: master
