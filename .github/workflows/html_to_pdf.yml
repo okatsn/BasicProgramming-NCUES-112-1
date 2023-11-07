@@ -7,7 +7,7 @@ on:
   push:
     branches:
       - testing-ci2
-    #   - main
+      - main
     paths:
       - docs/src/**
       - docs/make.jl
