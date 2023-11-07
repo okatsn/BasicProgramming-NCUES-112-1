@@ -23,7 +23,7 @@ jobs:
           ref: "gh-pages"
 
       - name: html to pdf
-        uses: markwilson/html2pdf@v1.0
+        uses: markwilson/html2pdf@v1.1
         with:
           htmlPath: dev/info/index.html
           pdfName: temp
