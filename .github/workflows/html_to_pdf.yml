@@ -2,9 +2,8 @@ name: Convert HTML to PDF and push to main
 
 permissions:
   pull-requests: write
-  issues: write
+  contents: write
   repository-projects: write
-
 on:
   push:
     branches:
