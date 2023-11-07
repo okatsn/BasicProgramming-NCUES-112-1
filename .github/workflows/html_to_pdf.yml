@@ -16,6 +16,12 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: "gh-pages"
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+
       - name: html to pdf
         uses: fifsky/html-to-pdf-action@master
         with:
