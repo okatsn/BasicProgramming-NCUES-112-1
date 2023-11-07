@@ -8,9 +8,10 @@ on:
         branches:
             - testing-ci2 # Delete me after testing is over
             - main
-        paths:
-            - docs/src/**
-            - docs/make.jl
+        # paths:
+        #     - docs/src/**
+        #     - docs/make.jl
+        # Uncomment these lines after the test is over
 jobs:
     convert-to-pdf:
         runs-on: ubuntu-latest
