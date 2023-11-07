@@ -19,7 +19,7 @@ jobs:
         steps:
             - name: Install Dependencies
               run: npm install
-              working-directory: /home/runner/work/BasicProgramming-NCUES-112-1
+              working-directory: ${{ github.workspace }}
 
             # - uses: bahmutov/npm-install@v1
             - name: Setup Node.js
