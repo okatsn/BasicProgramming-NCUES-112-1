@@ -25,10 +25,10 @@ jobs:
             - name: Setup Chrome
               uses: browser-actions/setup-chrome@v1
 
-            - name: Install NPM
-              uses: bahmutov/npm-install@v1
-              with:
-                  working-directory: ./
+            # - name: Install NPM
+            #   uses: bahmutov/npm-install@v1
+            #   with:
+            #       working-directory: ./
 
             - name: Setup Node.js
               uses: actions/setup-node@v2
