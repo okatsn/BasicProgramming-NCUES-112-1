@@ -1,62 +1,45 @@
 name: Convert HTML to PDF and push to main
 
 permissions:
-    contents: write
+  contents: write
 
 on:
-    push:
-        branches:
-            - testing-ci2 # Delete me after testing is over
-            - main
-        # paths:
-        #     - docs/src/**
-        #     - docs/make.jl
-        # Uncomment these lines after the test is over
+  push:
+    branches:
+      - testing-ci2 # Delete me after testing is over
+      - main
+    # paths:
+    #     - docs/src/**
+    #     - docs/make.jl
+    # Uncomment these lines after the test is over
 jobs:
-    convert-to-pdf:
-        runs-on: ubuntu-latest
+  convert-to-pdf:
+    runs-on: ubuntu-latest
 
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v4
-              with:
-                  ref: "gh-pages"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: "gh-pages"
 
-            - name: Install NPM
-              uses: bahmutov/npm-install@v1
-              with:
-                  working-directory: ./
+      - name: html to pdf
+        uses: markwilson/html2pdf@v1.0
+        with:
+          htmlPath: ./dev/info/index.html
+          pdfName: ./temp.pdf
 
-            - name: install Puppeteer
-              run: npm install puppeteer
-
-            - name: Setup Node.js
-              uses: actions/setup-node@v2
-              with:
-                  node-version: 14 # Use a Node.js version that is compatible with your project
-
-            - name: Setup Chrome
-              uses: browser-actions/setup-chrome@v1
-
-            - name: html to pdf
-              uses: frnode/html-to-pdf-action@master
-              with:
-                  htmlFile: ./dev/info/index.html
-                  outputFile: ./temp.pdf
-                  pdfOptions: '{"format": "A4", "margin": {"top": "10mm", "left": "10mm", "right": "10mm", "bottom": "10mm"}}'
-
-            - name: Commit and push PDF to main
-              run: |
-                  git config --local user.email "action@github.com"
-                  git config --local user.name "github-actions"
-                  git fetch
-                  git checkout main --force
-                  mv temp.pdf docs/info.pdf
-                  git add docs/info.pdf
-                  git commit -m "Update info.pdf"
-              shell: bash
-            - name: Push pdf
-              uses: ad-m/github-push-action@master
-              with:
-                  github_token: ${{ secrets.GITHUB_TOKEN }}
-                  branch: main
+      - name: Commit and push PDF to main
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "github-actions"
+          git fetch
+          git checkout main
+          mv temp.pdf docs/info.pdf
+          git add docs/info.pdf
+          git commit -m "Update info.pdf"
+        shell: bash
+      - name: Push pdf
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
