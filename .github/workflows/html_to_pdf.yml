@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - testing-ci2
+      - main
     # paths:
     #   - ./docs
 jobs:
@@ -13,8 +14,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          ref: "main"
 
       - name: html to pdf
         uses: misaelnieto/web_to_pdf_action@master
