@@ -25,6 +25,9 @@ jobs:
               with:
                   working-directory: ./
 
+            - name: install Puppeteer
+              run: npm install puppeteer
+
             - name: Setup Node.js
               uses: actions/setup-node@v2
               with:
