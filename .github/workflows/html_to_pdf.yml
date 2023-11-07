@@ -39,7 +39,7 @@ jobs:
           git config --local user.name "github-actions"
           git fetch origin
           git checkout main
-          git mv ./info.pdf ./README.pdf
+          mv ./info.pdf ./README.pdf
           git add README.pdf
           git commit -m "Update README.pdf"
         shell: bash
