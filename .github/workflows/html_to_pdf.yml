@@ -25,8 +25,8 @@ jobs:
       - name: html to pdf
         uses: markwilson/html2pdf@v1.0
         with:
-          htmlPath: ./dev/info/index.html
-          pdfName: ./temp.pdf
+          htmlPath: dev/info/index.html
+          pdfName: temp
 
       - name: Commit and push PDF to main
         run: |
@@ -34,9 +34,9 @@ jobs:
           git config --local user.name "github-actions"
           git fetch
           git checkout main
-          mv temp.pdf docs/info.pdf
-          git add docs/info.pdf
-          git commit -m "Update info.pdf"
+          mv temp.pdf README.pdf
+          git add README.pdf
+          git commit -m "Update README.pdf"
         shell: bash
       - name: Push pdf
         uses: ad-m/github-push-action@master
