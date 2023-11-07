@@ -2,9 +2,13 @@
 CurrentModule = BasicProgrammingNCUES1121
 ```
 
-# BasicProgrammingNCUES1121
+# 基礎程式設計
 
-Documentation for [BasicProgrammingNCUES1121](https://github.com/okatsn/BasicProgramming-NCUES-112-1).
+這是 `GA1002` 基礎程式語言。
+請務必閱讀 [課程須知](@ref)。
+
+```@content
+```
 
 ```@index
 ```
