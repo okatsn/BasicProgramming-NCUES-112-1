@@ -16,23 +16,27 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
+            - name: Setup Chrome
+              uses: browser-actions/setup-chrome@v1
             - name: Checkout
               uses: actions/checkout@v4
               with:
-                  ref: "main"
+                  ref: "gh-pages"
 
             - name: html to pdf
-              uses: misaelnieto/web_to_pdf_action@master
+              uses: fifsky/html-to-pdf-action@master
               with:
-                  webPageURL: https://okatsn.github.io/BasicProgramming-NCUES-112-1/dev/info/
-                  outputFile: ./docs/info.pdf
-                  usePuppeteer: true
-                  pdfOptions: '{"format": "Letter", "margin": {"top": "10mm", "left": "10mm", "right": "10mm", "bottom": "10mm"}}'
+                  htmlFile: ./dev/info/index.html
+                  outputFile: ./info.pdf
+                  pdfOptions: '{"format": "A4", "margin": {"top": "10mm", "left": "10mm", "right": "10mm", "bottom": "10mm"}}'
 
             - name: Commit and push PDF to main
               run: |
                   git config --local user.email "action@github.com"
                   git config --local user.name "github-actions"
+                  git fetch
+                  git checkout main
+                  mv info.pdf docs/info.pdf
                   git add docs/info.pdf
                   git commit -m "Update info.pdf"
               shell: bash
