@@ -31,9 +31,16 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "github-actions"
+          git checkout main
           git add docs/info.pdf
           git commit -m "Update info.pdf"
         shell: bash
+      # - name: Fetch and merge changes from main before pushing to main
+      #   run: |
+      #     git fetch origin main
+      #     git merge origin/main
+      #   shell: bash
+
       - name: Push pdf
         uses: ad-m/github-push-action@master
         with:
