@@ -1,16 +1,16 @@
 name: Convert HTML to PDF and push to main
 
 permissions:
-  pull-requests: write
   contents: write
-  repository-projects: write
+
 on:
   push:
     branches:
       - testing-ci2
-      - main
-    # paths:
-    #   - ./docs
+    #   - main
+    paths:
+      - docs/src/**
+      - docs/make.jl
 jobs:
   convert-to-pdf:
     runs-on: ubuntu-latest
@@ -36,12 +36,9 @@ jobs:
           git add docs/info.pdf
           git commit -m "Update info.pdf"
         shell: bash
-      # - name: Fetch and merge changes from main before pushing to main
-      #   run: |
-      #     git fetch origin main
-      #     git merge origin/main
-      #   shell: bash
-
+        # KEYNOTE: If the push action that triggered this workflow is not limited to branch `main`,
+        # `git checkout main` is required since you are going to push it to main in the next step.
+        # `git fetch origin (main)` is also required otherwise `git checkout main` might fail.
       - name: Push pdf
         uses: ad-m/github-push-action@master
         with:
