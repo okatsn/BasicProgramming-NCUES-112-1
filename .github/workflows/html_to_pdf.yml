@@ -1,12 +1,16 @@
 name: Convert HTML to PDF and push to main
 
+permissions:
+  contents: write
+
 on:
   push:
     branches:
       - testing-ci2
-      - main
-    # paths:
-    #   - ./docs
+    #   - main
+    paths:
+      - docs/src/**
+      - docs/make.jl
 jobs:
   convert-to-pdf:
     runs-on: ubuntu-latest
@@ -27,9 +31,14 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "github-actions"
+          git fetch origin
+          git checkout main
           git add docs/info.pdf
           git commit -m "Update info.pdf"
         shell: bash
+        # KEYNOTE: If the push action that triggered this workflow is not limited to branch `main`,
+        # `git checkout main` is required since you are going to push it to main in the next step.
+        # `git fetch origin (main)` is also required otherwise `git checkout main` might fail.
       - name: Push pdf
         uses: ad-m/github-push-action@master
         with:
