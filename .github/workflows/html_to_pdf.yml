@@ -17,6 +17,14 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
+            - name: Install Dependencies
+              run: npm install
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v2
+              with:
+                  node-version: 14 # Use a Node.js version that is compatible with your project
+
             - name: Setup Chrome
               uses: browser-actions/setup-chrome@v1
 
