@@ -19,16 +19,17 @@ jobs:
         steps:
             - name: Setup Chrome
               uses: browser-actions/setup-chrome@v1
+
             - name: Checkout
               uses: actions/checkout@v4
               with:
                   ref: "gh-pages"
 
             - name: html to pdf
-              uses: fifsky/html-to-pdf-action@master
+              uses: frnode/html-to-pdf-action@master
               with:
                   htmlFile: ./dev/info/index.html
-                  outputFile: ./info.pdf
+                  outputFile: ./temp.pdf
                   pdfOptions: '{"format": "A4", "margin": {"top": "10mm", "left": "10mm", "right": "10mm", "bottom": "10mm"}}'
 
             - name: Commit and push PDF to main
@@ -37,7 +38,7 @@ jobs:
                   git config --local user.name "github-actions"
                   git fetch
                   git checkout main
-                  mv info.pdf docs/info.pdf
+                  mv temp.pdf docs/info.pdf
                   git add docs/info.pdf
                   git commit -m "Update info.pdf"
               shell: bash
