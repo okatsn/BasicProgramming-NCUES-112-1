@@ -17,8 +17,11 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            - uses: bahmutov/npm-install@v1
+            - name: Install Dependencies
+              run: npm install
+              working-directory: /home/runner/work/BasicProgramming-NCUES-112-1
 
+            # - uses: bahmutov/npm-install@v1
             - name: Setup Node.js
               uses: actions/setup-node@v2
               with:
