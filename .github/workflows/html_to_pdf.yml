@@ -16,6 +16,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: browser-actions/setup-chrome@v1
+      - run: chrome --version
+
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -24,8 +27,8 @@ jobs:
         with:
           webPageURL: https://okatsn.github.io/BasicProgramming-NCUES-112-1/dev/info/
           outputFile: ./docs/info.pdf
-          usePuppeteer: true
-          pdfOptions: '{"format": "Letter", "margin": {"top": "10mm", "left": "10mm", "right": "10mm", "bottom": "10mm"}}'
+          usePuppeteer: false
+          pdfOptions: '{"format": "A4", "margin": {"top": "10mm", "left": "10mm", "right": "10mm", "bottom": "10mm"}}'
 
       - name: Commit and push PDF to main
         run: |

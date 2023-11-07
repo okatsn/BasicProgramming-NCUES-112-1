@@ -6,7 +6,7 @@ CurrentModule = BasicProgrammingNCUES1121
 
 上課時間：週一 15:00-17:00
 
-測驗：共四次隨堂上機測驗
+測驗：共四次隨堂上機測驗。詳細時間見[測驗時間、範圍與流程](@ref)。
 
 測驗題庫：[Python for beginners](https://simplelearn.tw/python-for-beginners/)
 
