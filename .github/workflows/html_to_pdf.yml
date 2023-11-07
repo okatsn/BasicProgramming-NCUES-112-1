@@ -31,6 +31,7 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "github-actions"
+          git fetch origin
           git checkout main
           git add docs/info.pdf
           git commit -m "Update info.pdf"
