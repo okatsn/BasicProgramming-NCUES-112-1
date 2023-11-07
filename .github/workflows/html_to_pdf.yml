@@ -3,7 +3,6 @@ name: Convert HTML to PDF and push to main
 on:
   push:
     branches:
-      - gh-pages
       - testing-ci2
     # paths:
     #   - ./docs
@@ -15,27 +14,23 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref: "gh-pages"
-
-      - name: Install Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 14
+          ref: "main"
 
       - name: html to pdf
-        uses: fifsky/html-to-pdf-action@master
+        uses: misaelnieto/web_to_pdf_action@master
         with:
-          htmlFile: ./dev/index.html
-          outputFile: ./README.pdf
-          pdfOptions: '{"format": "A4", "margin": {"top": "10mm", "left": "10mm", "right": "10mm", "bottom": "10mm"}}'
+          webPageURL: https://okatsn.github.io/BasicProgramming-NCUES-112-1/dev/info/
+          outputFile: ./docs/info.pdf
+          usePuppeteer: true
+          useScreen: true
+          pdfOptions: '{"format": "Letter", "margin": {"top": "10mm", "left": "10mm", "right": "10mm", "bottom": "10mm"}}'
+
       - name: Commit and push PDF to main
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "github-actions"
-          git checkout main
-          mv README.pdf docs/README.pdf
-          git add docs/README.pdf
-          git commit -m "Update README.pdf"
+          git add docs/info.pdf
+          git commit -m "Update info.pdf"
         shell: bash
       - name: Push pdf
         uses: ad-m/github-push-action@master
