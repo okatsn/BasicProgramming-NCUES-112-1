@@ -8,6 +8,7 @@ CurrentModule = BasicProgrammingNCUES1121
 
 測驗：共四次隨堂上機測驗
 
+
 測驗題庫：[Python for beginners](https://simplelearn.tw/python-for-beginners/)
 
 ## 測驗與計分方式
