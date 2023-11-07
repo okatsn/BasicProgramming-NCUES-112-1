@@ -1,33 +1,57 @@
+name: Convert HTML to PDF and push to main
+
 on:
   push:
     branches:
       - gh-pages
-    # paths:
-    #   - ./docs
+      - testing-ci
+
 jobs:
-  copy-file:
+  convert-to-pdf:
     runs-on: ubuntu-latest
-    # environment: github-pages # you have to already have this environment in this repo
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           ref: "gh-pages"
-      - name: html to pdf
-        uses: fifsky/html-to-pdf-action@master
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
         with:
-          htmlFile: ./dev/index.html
-          outputFile: ./README.pdf
-          pdfOptions: '{"format": "A4", "margin": {"top": "10mm", "left": "10mm", "right": "10mm", "bottom": "10mm"}}'
-      - name: commit pdf
+          node-version: 14
+
+      - name: Install dependencies
+        run: npm install puppeteer
+
+      - name: Convert HTML to PDF
+        run: |
+          node -e "const puppeteer = require('puppeteer');
+          (async () => {
+            const browser = await puppeteer.launch();
+            const page = await browser.newPage();
+            await page.goto('file:///$(pwd)/dev/index.html');
+            await page.pdf({
+              path: 'README.pdf',
+              format: 'A4',
+              margin: {
+                top: '10mm',
+                left: '10mm',
+                right: '10mm',
+                bottom: '10mm'
+              }
+            });
+            await browser.close();
+          })();"
+        working-directory: ${{ github.workspace }}
+
+      - name: Commit and push PDF to main
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "github-actions"
-          git add README.pdf
+          git checkout main
+          mv README.pdf docs/README.pdf
+          git add docs/README.pdf
           git commit -m "Update README.pdf"
-        shell: bash
-      - name: Push pdf
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: master
+          git push
+        working-directory: ${{ github.workspace }}
