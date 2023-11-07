@@ -21,7 +21,6 @@ jobs:
           webPageURL: https://okatsn.github.io/BasicProgramming-NCUES-112-1/dev/info/
           outputFile: ./docs/info.pdf
           usePuppeteer: true
-          useScreen: true
           pdfOptions: '{"format": "Letter", "margin": {"top": "10mm", "left": "10mm", "right": "10mm", "bottom": "10mm"}}'
 
       - name: Commit and push PDF to main
