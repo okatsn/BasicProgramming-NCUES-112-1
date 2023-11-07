@@ -1,48 +1,43 @@
 name: Convert HTML to PDF and push to main
 
 permissions:
-  contents: write
+    contents: write
 
 on:
-  push:
-    branches:
-      - testing-ci2
-      - main
-    paths:
-      - docs/src/**
-      - docs/make.jl
+    push:
+        branches:
+            - testing-ci2 # Delete me after testing is over
+            - main
+        paths:
+            - docs/src/**
+            - docs/make.jl
 jobs:
-  convert-to-pdf:
-    runs-on: ubuntu-latest
+    convert-to-pdf:
+        runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+              with:
+                  ref: "main"
 
-      - name: html to pdf
-        uses: misaelnieto/web_to_pdf_action@master
-        with:
-          webPageURL: https://okatsn.github.io/BasicProgramming-NCUES-112-1/dev/info/
-          outputFile: ./docs/info.pdf
-          usePuppeteer: true
-          pdfOptions: '{"format": "Letter", "margin": {"top": "10mm", "left": "10mm", "right": "10mm", "bottom": "10mm"}}'
+            - name: html to pdf
+              uses: misaelnieto/web_to_pdf_action@master
+              with:
+                  webPageURL: https://okatsn.github.io/BasicProgramming-NCUES-112-1/dev/info/
+                  outputFile: ./docs/info.pdf
+                  usePuppeteer: true
+                  pdfOptions: '{"format": "Letter", "margin": {"top": "10mm", "left": "10mm", "right": "10mm", "bottom": "10mm"}}'
 
-      - name: Commit and push PDF to main
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "github-actions"
-          git stash
-          git fetch origin
-          git checkout main
-          git stash pop
-          git add docs/info.pdf
-          git commit -m "Update info.pdf"
-        shell: bash
-        # KEYNOTE: If the push action that triggered this workflow is not limited to branch `main`,
-        # `git checkout main` is required since you are going to push it to main in the next step.
-        # `git fetch origin (main)` is also required otherwise `git checkout main` might fail.
-      - name: Push pdf
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: main
+            - name: Commit and push PDF to main
+              run: |
+                  git config --local user.email "action@github.com"
+                  git config --local user.name "github-actions"
+                  git add docs/info.pdf
+                  git commit -m "Update info.pdf"
+              shell: bash
+            - name: Push pdf
+              uses: ad-m/github-push-action@master
+              with:
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  branch: main
