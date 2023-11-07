@@ -26,6 +26,7 @@ CurrentModule = BasicProgrammingNCUES1121
 | 12/25 | [Python for beginners](https://simplelearn.tw/python-for-beginners/) (9) - (12)  | (4 抽 2) |
 | 01/08 | [Python for beginners](https://simplelearn.tw/python-for-beginners/) (13) - (16) | (4 抽 2) |
 
+
 每次測驗為50分鐘，包含以下流程：
 
 - 說明與分發[測驗頁面](#測驗頁面)編號 (5分)

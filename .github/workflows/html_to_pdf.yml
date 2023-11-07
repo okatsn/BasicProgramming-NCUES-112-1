@@ -5,9 +5,7 @@ permissions:
 
 on:
   push:
-    branches:
-      - testing-ci2
-    #   - main
+    # This action can be triggered on any branch with any of the `paths` being pushed.
     paths:
       - docs/src/**
       - docs/make.jl
@@ -16,19 +14,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: browser-actions/setup-chrome@v1
-      - run: chrome --version
-
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: html to pdf
-        uses: misaelnieto/web_to_pdf_action@master
+      - name: build pdf and html
+        uses: baileyjm02/markdown-to-pdf@v1 # https://github.com/BaileyJM02/markdown-to-pdf#markdown-to-pdf
         with:
-          webPageURL: https://okatsn.github.io/BasicProgramming-NCUES-112-1/dev/info/
-          outputFile: ./docs/info.pdf
-          usePuppeteer: false
-          pdfOptions: '{"format": "A4", "margin": {"top": "10mm", "left": "10mm", "right": "10mm", "bottom": "10mm"}}'
+          input_path: ./docs/src/info.md
+          output_dir: ./
+          # images_dir: docs/images
+          # # for example <img src="./images/file-name.png">
+          # image_import: ./images
+          # # Default is true, can set to false to only get PDF files
+          build_html: true
+          build_pdf: true
 
       - name: Commit and push PDF to main
         run: |
@@ -36,8 +35,9 @@ jobs:
           git config --local user.name "github-actions"
           git fetch origin
           git checkout main
-          git add docs/info.pdf
-          git commit -m "Update info.pdf"
+          mv ./info.pdf ./README.pdf
+          git add README.pdf
+          git commit -m "Update README.pdf"
         shell: bash
         # KEYNOTE: If the push action that triggered this workflow is not limited to branch `main`,
         # `git checkout main` is required since you are going to push it to main in the next step.
