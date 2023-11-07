@@ -5,12 +5,10 @@ permissions:
 
 on:
   push:
-    branches:
-      - convert-md-pdf # TODO: comment this
-    #   - main # TODO: and uncomment this after tested
-    # paths:
-    #   - docs/src/**
-    #   - docs/make.jl
+    # This action can be triggered on any branch with any of the `paths` being pushed.
+    paths:
+      - docs/src/**
+      - docs/make.jl
 jobs:
   convert-to-pdf:
     runs-on: ubuntu-latest
@@ -18,8 +16,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - uses: browser-actions/setup-chrome@v1
 
       - name: build pdf and html
         uses: baileyjm02/markdown-to-pdf@v1 # https://github.com/BaileyJM02/markdown-to-pdf#markdown-to-pdf
