@@ -11,6 +11,11 @@ function update_personal(content, row)
     end
 end
 
+function run_qpdf(password, src, dest)
+    command_add_password = `qpdf --object-streams=disable --encrypt "$password" "$password" 256 --print=none --modify=none --extract=n -- "$src" "$dest"`
+    run(command_add_password)
+end
+
 
 df = CSV.read("data/BasicProgrammingStudentList_112-1.csv", DataFrame)
 
@@ -39,11 +44,10 @@ weave(joinpath(temp_dir, md_name * ".md"); informat="markdown", doctype="md2pdf"
 # - `ctex` is also required.
 # - The easist way is to use https://github.com/okatsn/MyTeXLifeWithJulia, which is based on https://github.com/okatsn/MyTeXLife where `fonts-noto-cjk` is available.
 
-
-
-command_add_password = """
-qpdf --object-streams=disable --encrypt "1234" "1234" 256 --print=none --modify=none --extract=n -- "README_pretty.pdf" "README_password.pdf"
-""" # also refer: https://github.com/alexeygumirov/pandoc-for-pdf-how-to#protection-of-pdf-file-with-qpdf
+# Add Password to PDF
+weavedpdf = joinpath(temp_dir, md_name * ".pdf")
+run_qpdf(row.password, weavedpdf, weavedpdf)
+# also refer: https://github.com/alexeygumirov/pandoc-for-pdf-how-to#protection-of-pdf-file-with-qpdf
 # sudo apt-get update
 # # This is for qpdf
 # sudo apt-get install qpdf
