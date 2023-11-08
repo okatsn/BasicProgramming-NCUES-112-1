@@ -31,7 +31,13 @@ Literate.markdown("scripts/score_overview_template.jl", temp_dir; preprocess=c -
 
 # Weave to PDF
 weave(joinpath(temp_dir, md_name * ".md"); informat="markdown", doctype="md2pdf", out_path=temp_dir, template="textemplate/notosanscjk.tpl")
-
+# KEYNOTE:
+# - The default template uses font lmodern. You may need `sudo apt-get install lmodern` if this font is not available yet in your machine. See also the default [md2pdf.tpl in Weave.jl](https://github.com/JunoLab/Weave.jl/blob/master/templates/md2pdf.tpl)
+#
+# LaTeX support:
+# - Font that supports Chinese is required. You may need `sudo apt install fonts-noto-cjk`
+# - `ctex` is also required.
+# - The easist way is to use https://github.com/okatsn/MyTeXLifeWithJulia, which is based on https://github.com/okatsn/MyTeXLife where `fonts-noto-cjk` is available.
 
 
 
@@ -39,9 +45,5 @@ command_add_password = """
 qpdf --object-streams=disable --encrypt "1234" "1234" 256 --print=none --modify=none --extract=n -- "README_pretty.pdf" "README_password.pdf"
 """ # also refer: https://github.com/alexeygumirov/pandoc-for-pdf-how-to#protection-of-pdf-file-with-qpdf
 # sudo apt-get update
-# # This is for weaving markdown to PDF using default md2pdf.tpl
-# sudo apt-get install lmodern
 # # This is for qpdf
 # sudo apt-get install qpdf
-# # This installs noto sans CJK, to allow Chinese characters
-# sudo apt install fonts-noto-cjk

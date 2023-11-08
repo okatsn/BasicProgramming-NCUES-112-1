@@ -3,7 +3,7 @@
 \usepackage[a4paper,text={16.5cm,25.2cm},centering]{geometry}
 \usepackage{ctex} % For CJK support
 \usepackage{fontspec}
-\setmainfont{Noto Sans CJK} % Specify Noto Sans CJK as the main font
+\setmainfont{Noto Serif CJK TC} % Specify Noto Sans CJK as the main font
 \usepackage{amssymb,amsmath}
 \usepackage{bm}
 \usepackage{graphicx}
