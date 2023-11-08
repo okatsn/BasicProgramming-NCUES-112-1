@@ -1,5 +1,7 @@
 module BasicProgrammingNCUES1121
 
-# Write your package code here.
+using CSV, DataFrames
+include("emaillist.jl")
+export lazymaillist
 
 end
