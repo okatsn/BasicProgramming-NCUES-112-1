@@ -13,6 +13,15 @@ end
 
 function run_qpdf(password, src, dest)
     command_add_password = `qpdf --object-streams=disable --encrypt "$password" "$password" 256 --print=none --modify=none --extract=n -- "$src" "$dest"`
+    # The first password is user password (allows open)
+    # The second password is owner password (allows edit)
+    run(command_add_password)
+end
+
+function run_qpdf(password, src)
+    command_add_password = `qpdf --object-streams=disable --encrypt "$password" "$password" 256 --print=none --modify=none --extract=n -- "$src" --replace-input`
+    # --replace-input is required to say that I'm intended to replace the original file with the encrypted one
+    # with --replace-input, you cannont assign dest.
     run(command_add_password)
 end
 
@@ -46,7 +55,7 @@ weave(joinpath(temp_dir, md_name * ".md"); informat="markdown", doctype="md2pdf"
 
 # Add Password to PDF
 weavedpdf = joinpath(temp_dir, md_name * ".pdf")
-run_qpdf(row.password, weavedpdf, weavedpdf)
+run_qpdf(row.password, weavedpdf)
 # also refer: https://github.com/alexeygumirov/pandoc-for-pdf-how-to#protection-of-pdf-file-with-qpdf
 # sudo apt-get update
 # # This is for qpdf
