@@ -1,4 +1,5 @@
-# 課程須知
+# 基礎程式語言第二部分(陳建志老師)課程須知 (草案)
+
 
 上課時間：週一 15:00-17:00
 
@@ -15,12 +16,12 @@
 
 測驗時間與範圍如下：
 
-| 日期    | 範圍                                                                               | 附註      |
-|-------|----------------------------------------------------------------------------------|---------|
-| 11/20 | [Python for beginners](https://simplelearn.tw/python-for-beginners/) (1) - (4)   | (4 抽 2) |
-| 12/04 | [Python for beginners](https://simplelearn.tw/python-for-beginners/) (5) - (8)   | (4 抽 2) |
-| 12/25 | [Python for beginners](https://simplelearn.tw/python-for-beginners/) (9) - (12)  | (4 抽 2) |
-| 01/08 | [Python for beginners](https://simplelearn.tw/python-for-beginners/) (13) - (16) | (4 抽 2) |
+| 日期          | 範圍                                                                               | 附註      |
+|-------------|----------------------------------------------------------------------------------|---------|
+| 11/20 15:00 | [Python for beginners](https://simplelearn.tw/python-for-beginners/) (1) - (4)   | (4 抽 2) |
+| 12/04 15:00 | [Python for beginners](https://simplelearn.tw/python-for-beginners/) (5) - (8)   | (4 抽 2) |
+| 12/25 15:00 | [Python for beginners](https://simplelearn.tw/python-for-beginners/) (9) - (12)  | (4 抽 2) |
+| 01/08 15:00 | [Python for beginners](https://simplelearn.tw/python-for-beginners/) (13) - (16) | (4 抽 2) |
 
 
 每次測驗為50分鐘，包含以下流程：
