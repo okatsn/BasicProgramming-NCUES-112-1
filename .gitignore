@@ -4,3 +4,8 @@
 /data
 /README_pretty.pdf
 /s218pass.png
+/local/*.aux
+/local/*.out
+/local/*.tex
+/local/*.log
+/local/jl_*/*
