@@ -1,0 +1,29 @@
+---
+title : Python for beginner Quiz對照表 (範圍：`j "$(test_id)"`)
+# date: `j using Dates; Dates.today()`
+date: 2023年11月20日
+---
+
+```julia; eval = false; echo = false
+# # Generate password
+# This should be only done once 
+# insertcols!(df, :password => [randstring(rand(5:8)) for _ in 1:nrow(df)])
+# CSV.write("data/BasicProgrammingStudentList_112-1.csv", df)
+```
+
+```julia; echo = false
+test_id = 1:4 # SETME
+using CSV, DataFrames, Markdown
+using Random
+using BasicProgrammingNCUES1121
+using Literate
+using StatsBase
+df = CSV.read(projectdir("data", "BasicProgrammingStudentList_112-1.csv"), DataFrame)
+insertcols!(df, :QuizNum => [sample(test_id, 2; replace = false) for _ in 1:nrow(df)]) 
+select(df, :Dept => "科系", :StudentID =>"學號", :Name => "姓名", :QuizNum => "Python for beginner Quiz")
+```
+
+```julia; eval = false; echo = false
+# Execute this line in REPL, using BasicProgrammingNCUES1121
+weave(projectdir("scripts", "exam_lottery.jmd"), doctype = "md2pdf", template = projectdir("textemplate", "notosanscjk.tpl"), out_path = projectdir("local"))
+```
