@@ -31,11 +31,6 @@ df = CSV.read("data/BasicProgrammingStudentList_112-1.csv", DataFrame)
 temp_dir = "temp" # !!! warning DO NOT push this directory to remote!
 
 
-# Add password
-insertcols!(df, :password => [randstring(rand(5:8)) for _ in 1:nrow(df)])
-CSV.write("data/BasicProgrammingStudentList_112-1-password.csv", df)
-
-
 row = eachrow(df) |> first # TODO: remove `first`
 
 # Literate to Markdown
