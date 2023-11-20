@@ -19,5 +19,6 @@ select(df, :Dept => "科系", :StudentID =>"學號", :Name => "姓名", :QuizNum
 
 ```julia; eval = false; echo = false
 # Execute this line in REPL, using BasicProgrammingNCUES1121
+using Weave, BasicProgrammingNCUES1121
 weave(projectdir("scripts", "exam_lottery.jmd"), doctype = "md2pdf", template = projectdir("textemplate", "notosanscjk.tpl"), out_path = projectdir("local"))
 ```
