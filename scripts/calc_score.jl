@@ -6,12 +6,36 @@ using Literate, Weave
 using Random
 using Chain
 using BasicProgrammingNCUES1121
+using GoogleDrive
+using Test
+
+# Name
+mkdir(dir_temp())
 
 literate_template = projectdir("scripts", "score_overview_template.jl")
 latex_template = projectdir("textemplate", "notosanscjk.tpl")
 data_name = projectdir("data", "BasicProgrammingStudentList_112-1.csv")
+df = CSV.read(data_name, DataFrame)
 
-mkdir(dir_temp())
+# select(df, :Row, :Dept, :StudentID, :Name, :Gender , Cols(r"Email"))
+
+# Download latest google sheet
+google_download("https://docs.google.com/spreadsheets/d/1RGc-qOsgHjeqoYPfGp3-ZVNXOWtpVWL5rfVxlUZtWOU/edit?resourcekey#gid=225937235", projectdir("temp"))
+
+score = CSV.read(projectdir("temp", "BasicProgrammingScore1121-1.csv"), DataFrame)
+score2 = @chain score begin
+    select(:Test_ID => ByRow(String),
+        "Name-ID" => ByRow(str -> String.(split(str, "-"))) => [:Name, :StudentID],
+        Cols(r"Quiz") .=> ByRow(Float64); renamecols=false
+    )
+    transform(:StudentID => ByRow(str -> parse(Int, str)); renamecols=false)
+end
+
+# Combine
+
+df2 = outerjoin(df, score2; on=[:StudentID, :Name])
+disallowmissing!(df2, Not(r"Quiz"))
+
 
 function update_personal(content, row)
     @chain content begin
@@ -34,9 +58,6 @@ function run_qpdf(password, src)
     # with --replace-input, you cannont assign dest.
     run(command_add_password)
 end
-
-
-df = CSV.read(data_name, DataFrame)
 
 
 
