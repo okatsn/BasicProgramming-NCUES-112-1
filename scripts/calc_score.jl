@@ -10,8 +10,6 @@ using GoogleDrive
 using Test
 
 # Name
-mkdir(dir_temp())
-
 literate_template = projectdir("scripts", "score_overview_template.jl")
 latex_template = projectdir("textemplate", "notosanscjk.tpl")
 data_name = projectdir("data", "BasicProgrammingStudentList_112-1.csv")
@@ -26,15 +24,25 @@ score = CSV.read(projectdir("temp", "BasicProgrammingScore1121-1.csv"), DataFram
 score2 = @chain score begin
     select(:Test_ID => ByRow(String),
         "Name-ID" => ByRow(str -> String.(split(str, "-"))) => [:Name, :StudentID],
-        Cols(r"Quiz") .=> ByRow(Float64); renamecols=false
+        Cols(r"Quiz") .=> ByRow(Float64) => (x -> replace(x, " " => "")) # Downloaded Google Sheet has an extra whitespace
+        ; renamecols=false
     )
     transform(:StudentID => ByRow(str -> parse(Int, str)); renamecols=false)
 end
 
-# Combine
 
+for col in eachcol(select(score2, r"Quiz"))
+    @assert !any((col .> 100.0) .| (col .< 0.0))
+end # CHECK score range.
+
+
+# Combine
 df2 = outerjoin(df, score2; on=[:StudentID, :Name])
-disallowmissing!(df2, Not(r"Quiz"))
+disallowmissing!(df2, Not(r"Quiz")) # Make sure there is no missing values
+sort!(df2, :Row)
+CSV.write(dir_temp("temp.csv"), df2)
+
+# transform(df2, AsTable(:Test_ID, :Quiz_A, :Quiz_B) => (nt -> )) # CHECKPOINT: Incorporate/Update the score sheet.
 
 
 function update_personal(content, row)
@@ -60,8 +68,7 @@ function run_qpdf(password, src)
 end
 
 
-
-row = eachrow(df) |> first # TODO: remove `first`
+row = eachrow(df2) |> first # TODO: remove `first`
 
 # Literate to Markdown
 md_name = "$(row.Name)-$(row.StudentID)"
