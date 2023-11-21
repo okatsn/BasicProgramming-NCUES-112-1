@@ -18,11 +18,15 @@ df = CSV.read(data_name, DataFrame)
 
 # Download latest google sheet
 
-rawscore = readgsheet(RawScore)
-score2 = prosheet(rawscore, RawScore)
+rawscore = readgsheet(RawScore())
+prosheet!(rawscore)
+makewide!(rawscore)
+
+
+
 
 # Combine
-df2 = outerjoin(df, score2; on=[:StudentID, :Name])
+df2 = outerjoin(df, ; on=[:StudentID])
 disallowmissing!(df2, Not(r"Quiz")) # Make sure there is no missing values
 sort!(df2, :Row)
 CSV.write(dir_temp("temp.csv"), df2)

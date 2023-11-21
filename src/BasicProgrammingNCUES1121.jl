@@ -13,5 +13,5 @@ export readgsheet, RawScore
 
 using Chain
 include("prosheet.jl")
-export prosheet
+export prosheet!, makewide!
 end
