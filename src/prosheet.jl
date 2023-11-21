@@ -9,6 +9,9 @@ function prosheet(df::DataFrame, ::Type{RawScore})
             ; renamecols=false
         )
         transform(:StudentID => ByRow(str -> parse(Int, str)); renamecols=false)
+        stack(Cols(r"Quiz"), [:StudentID, :Test_ID]; variable_name=:Quiz_ID, value_name=:score)
     end
+
+    @assert !any((score2.score .> 100.0) .| (score2.score .< 0.0))
     return score2
 end

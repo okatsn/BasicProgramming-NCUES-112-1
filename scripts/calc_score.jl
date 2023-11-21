@@ -21,12 +21,6 @@ df = CSV.read(data_name, DataFrame)
 rawscore = readgsheet(RawScore)
 score2 = prosheet(rawscore, RawScore)
 
-
-for col in eachcol(select(score2, r"Quiz"))
-    @assert !any((col .> 100.0) .| (col .< 0.0))
-end # CHECK score range.
-
-
 # Combine
 df2 = outerjoin(df, score2; on=[:StudentID, :Name])
 disallowmissing!(df2, Not(r"Quiz")) # Make sure there is no missing values
