@@ -9,6 +9,9 @@ export projectdir, dir_temp
 
 using JSON, GoogleDrive
 include("readgsheet.jl")
-export readgsheet
+export readgsheet, RawScore
 
+using Chain
+include("prosheet.jl")
+export prosheet
 end

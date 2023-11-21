@@ -1,9 +1,15 @@
+abstract type GoogleSheetIdentifier end
+
+# Necessary information in credentials.json for "RawScore" entry is required.
+struct RawScore <: GoogleSheetIdentifier end
+
+
 """
 Given `key_in_credentials`, `readgsheet` returns a DataFrame of the google sheet. The "url" in `dir_local("credentials.json")` must be set public.
 
 # Example
 ```julia
-readgsheet("rawScore")
+readgsheet("RawScore")
 ```
 
 This function depends on `GoogleDrive.jl`, it is designed to work with DVC to ensure secret data/path/url won't be push to public.
@@ -22,3 +28,12 @@ function readgsheet(key_in_credentials)
     rawscore = CSV.read(csvsheet, DataFrame)
     return rawscore
 end
+
+"""
+# Example
+
+```julia
+readgsheet(RawScore)
+```
+"""
+readgsheet(GSID::Type{<:GoogleSheetIdentifier}) = readgsheet(string(GSID))

@@ -18,15 +18,8 @@ df = CSV.read(data_name, DataFrame)
 
 # Download latest google sheet
 
-rawscore = readgsheet("rawScore")
-score2 = @chain rawscore begin
-    select(:Test_ID => ByRow(String),
-        "Name-ID" => ByRow(str -> String.(split(str, "-"))) => [:Name, :StudentID],
-        Cols(r"Quiz") .=> ByRow(Float64) => (x -> replace(x, " " => "")) # Downloaded Google Sheet has an extra whitespace
-        ; renamecols=false
-    )
-    transform(:StudentID => ByRow(str -> parse(Int, str)); renamecols=false)
-end
+rawscore = readgsheet(RawScore)
+score2 = prosheet(rawscore, RawScore)
 
 
 for col in eachcol(select(score2, r"Quiz"))
