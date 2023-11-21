@@ -1,3 +1,9 @@
+# !!! note
+#     Spreadsheet exclusive definitions reside here.
+#     Use interface in `readgsheet`.
+
+
+
 # SETME: Necessary information in credentials.json for "RawScore" entry is required.
 # - Add new struct <: GoogleSheetIdentifier for new entry in dir_local("credentials.json")
 @kwdef struct RawScore <: GoogleSheetIdentifier
@@ -31,7 +37,7 @@ function makewide!(dh::DataHolder)
 end
 
 """
-`prosheet(df::DataFrame, RawScore)` processes `df = readgsheet(RawScore)`. It returns `DataFrame`.
+`prosheet(df::DataFrame, RawScore)` processes `df = readgsheet(RawScore())`. It returns `DataFrame`.
 """
 function prosheet(df::DataFrame, ::RawScore)
     score2 = @chain df begin

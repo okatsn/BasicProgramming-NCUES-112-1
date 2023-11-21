@@ -1,4 +1,8 @@
-# refer: https://docs.julialang.org/en/v1/manual/types/#Parametric-Abstract-Types
+# !!! note
+#     Common interfaces reside here.
+#     This script depends on projectdir.jl
+#     # CHECKPOINT: Considering make it an indivudial package
+
 abstract type GoogleSheetIdentifier end
 
 get_keys_to_url(GSID::GoogleSheetIdentifier) = GSID.keys_to_url
@@ -22,7 +26,7 @@ get_GSID(dh::DataHolder) = dh.GSID;
 set_data!(dh::DataHolder, data) = setfield!(dh, :data, data)
 
 """
-Given `GSID<:GoogleSheetIdentifier`, `readgsheet(GSID::GoogleSheetIdentifier)` returns a `DataHolder` storing the data obtained from the google sheet. The "url" in `dir_local("credentials.json")` must be set public.
+Given `GSID<:GoogleSheetIdentifier`, `readgsheet(GSID::GoogleSheetIdentifier)` returns a `DataHolder` storing the data obtained from the google sheet. `GSID` must contain keys to url for indexing into  `dir_local("credentials.json")` to get the url. The url in `dir_local("credentials.json")` must be public.
 
 # Example
 Read data on cloud in `dir_local("credentials.json")` at entry `["RawScore"]["url"]`.
