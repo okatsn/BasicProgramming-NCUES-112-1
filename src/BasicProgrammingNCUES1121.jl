@@ -7,7 +7,8 @@ export lazymaillist
 include("projectdir.jl")
 export projectdir, dir_temp
 
-using JSON
+using JSON, GoogleDrive
 include("readgsheet.jl")
+export readgsheet
 
 end

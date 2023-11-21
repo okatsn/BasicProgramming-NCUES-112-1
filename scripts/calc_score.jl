@@ -6,7 +6,6 @@ using Literate, Weave
 using Random
 using Chain
 using BasicProgrammingNCUES1121
-using GoogleDrive
 using Test
 
 # Name
