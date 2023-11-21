@@ -18,10 +18,9 @@ df = CSV.read(data_name, DataFrame)
 # select(df, :Row, :Dept, :StudentID, :Name, :Gender , Cols(r"Email"))
 
 # Download latest google sheet
-google_download("https://docs.google.com/spreadsheets/d/1RGc-qOsgHjeqoYPfGp3-ZVNXOWtpVWL5rfVxlUZtWOU/edit?resourcekey#gid=225937235", projectdir("temp"))
 
-score = CSV.read(projectdir("temp", "BasicProgrammingScore1121-1.csv"), DataFrame)
-score2 = @chain score begin
+rawscore = readgsheet("rawScore")
+score2 = @chain rawscore begin
     select(:Test_ID => ByRow(String),
         "Name-ID" => ByRow(str -> String.(split(str, "-"))) => [:Name, :StudentID],
         Cols(r"Quiz") .=> ByRow(Float64) => (x -> replace(x, " " => "")) # Downloaded Google Sheet has an extra whitespace

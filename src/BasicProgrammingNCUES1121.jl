@@ -7,4 +7,7 @@ export lazymaillist
 include("projectdir.jl")
 export projectdir, dir_temp
 
+using JSON
+include("readgsheet.jl")
+
 end
