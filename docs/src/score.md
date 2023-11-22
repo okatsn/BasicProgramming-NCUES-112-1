@@ -8,7 +8,7 @@
 ```@eval
 using OkFiles, BasicProgrammingNCUES1121, Markdown
 flist = filelist(dir_pdf(); join=false) # read pdf in the path of BasicProgrammingNCUES1121
-rpath = joinpath.(Ref("assets"), Ref("pdf"), flist) # the relative directory of docs/src
+rpath = joinpath.(Ref(".."), Ref("assets"), Ref("pdf"), flist) # the relative directory of docs/src
 
 md0 = Markdown.parse("(若有需求，請向助教查詢密碼)")
 
