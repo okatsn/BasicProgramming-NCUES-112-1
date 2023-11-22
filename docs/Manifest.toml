@@ -2,7 +2,7 @@
 
 julia_version = "1.9.1"
 manifest_format = "2.0"
-project_hash = "13dec4597d9a889de70850064c6aeea379cfb5b2"
+project_hash = "216eae2c942381396c923a3b5f8c8f09fee1652d"
 
 [[deps.ANSIColoredPrinters]]
 git-tree-sha1 = "574baf8110975760d391c710b6341da1afa48d8c"
@@ -104,10 +104,8 @@ uuid = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
 
 [[deps.BasicProgrammingNCUES1121]]
 deps = ["AlgebraOfGraphics", "CSV", "CairoMakie", "Chain", "DataFrames", "GoogleDrive", "JSON", "Literate", "Markdown", "StatsBase", "Weave"]
-git-tree-sha1 = "288b7617a88a4e1f89ab807586b927b03e578fa0"
-repo-rev = "load-combine-google-sheet"
-repo-url = ".."
-uuid = "fa27ac20-bec5-4afc-9c34-43d8d1b4033a"
+path = ".."
+uuid = "d47e53ea-cd13-4645-baff-4d8c8fc6f136"
 version = "0.0.1"
 
 [[deps.BitFlags]]
