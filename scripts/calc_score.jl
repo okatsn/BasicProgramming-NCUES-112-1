@@ -1,5 +1,5 @@
 # This script read data, based on the template of Literate generate Julia Markdown, and weave
-# the Julia Markdown as PDF.
+# the Julia Markdown as PDF. Please also refer `literate_template`.
 
 using CSV, DataFrames, Markdown
 using Literate, Weave

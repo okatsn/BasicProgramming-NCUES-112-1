@@ -17,7 +17,7 @@ end
 """
 mutable struct DataHolder
     data::DataFrame
-    GSID::GoogleSheetIdentifier
+    GSID::Union{GoogleSheetIdentifier,Nothing}
 end
 
 get_data(dh::DataHolder) = dh.data;
@@ -48,8 +48,16 @@ function readgsheet(GSID::GoogleSheetIdentifier)
     json = JSON.parsefile(projectdir("local", "credentials.json"))
     fs = map(key -> (d -> getindex(d, key)), reverse(BasicProgrammingNCUES1121.get_keys_to_url(GSID)))
     url = ∘(fs...)(json) # recursively getindex by key in get_keys_to_url(GSID)
+    return readgsheet(url, GSID)
+end
+
+
+function readgsheet(url, GSID)
     temp = mktempdir()
     csvsheet = google_download(url, temp)
     rawscore = CSV.read(csvsheet, DataFrame)
     return DataHolder(rawscore, GSID)
 end
+
+
+readgsheet(url) = readgsheet(url, nothing)
