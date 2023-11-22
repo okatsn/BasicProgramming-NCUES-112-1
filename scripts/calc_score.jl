@@ -12,6 +12,7 @@ using Test
 literate_template = projectdir("scripts", "score_overview_template.jl")
 latex_template = projectdir("textemplate", "notosanscjk.tpl")
 localtable = CSV.read(projectdir("data", "BasicProgrammingStudentList_112-1.csv"), DataFrame)
+mkpath(dir_pdf())
 
 # Hint: You can move codes in literate_template for debug purposes.
 
@@ -43,7 +44,7 @@ row = eachrow(localtable) |> first # TODO: remove `first`
 
 for row in eachrow(localtable)
     # Literate to Markdown
-    md_name = "$(row.Name)-$(row.StudentID)"
+    md_name = "$(row.StudentID)"
     Literate.markdown(literate_template, dir_temp(); preprocess=c -> update_personal(c, row), name=md_name)
 
 
@@ -64,4 +65,5 @@ for row in eachrow(localtable)
     # sudo apt-get update
     # # This is for qpdf
     # sudo apt-get install qpdf
+    mv(weavedpdf, dir_pdf(md_name * ".pdf"))
 end
