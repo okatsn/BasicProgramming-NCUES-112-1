@@ -5,9 +5,6 @@
 name: CI
 on:
   push:
-    branches:
-      - main
-    tags: ["*"]
   pull_request:
 concurrency:
   # Skip intermediate builds: always.
@@ -41,6 +38,9 @@ jobs:
   docs:
     name: Documentation
     runs-on: ubuntu-latest
+    container:
+      image: okatsn/my-tex-life-with-julia
+    # ref: https://docs.github.com/en/actions/using-jobs/running-jobs-in-a-container
     permissions:
       contents: write
     steps:
