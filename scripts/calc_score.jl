@@ -6,7 +6,9 @@
 # - To support Chinese, use `sudo apt install fonts-noto-cjk`.
 # - `ctex` is also required.
 # - The easist way is to use https://github.com/okatsn/MyTeXLifeWithJulia, which is based on https://github.com/okatsn/MyTeXLife where `fonts-noto-cjk` is available.
-
+# !!! note Currently you cannot execute this script in CI.yml
+#     * This cannot be done since this script (the weave part) not only depends on julia, but also depends on
+#       qpdf and a lot of LaTeX things.
 using CSV, DataFrames, Markdown
 using Literate, Weave
 using Random

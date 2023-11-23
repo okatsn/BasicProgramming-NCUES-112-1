@@ -2,6 +2,7 @@
 
 ## 成績分布
 
+![](score_distribution.png)
 
 ## 個人成績查詢
 
