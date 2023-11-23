@@ -1,5 +1,11 @@
 # This script read data, based on the template of Literate generate Julia Markdown, and weave
 # the Julia Markdown as PDF. Please also refer `literate_template`.
+# # KEYNOTE:
+# - `weave` with `doctype=md2pdf` can run only in the environment where LaTeX and related packages were available, such as `MyTeXLifeWithJulia`. Github actions will easily fail if the environment have not been correctly set up.
+# - The default template ([md2pdf.tpl in Weave.jl](https://github.com/JunoLab/Weave.jl/blob/master/templates/md2pdf.tpl)) uses font lmodern; it will fail if this font is not found in your system. `sudo apt-get install lmodern` do the installation of the font. Noted that this font does not support Chinese.
+# - To support Chinese, use `sudo apt install fonts-noto-cjk`.
+# - `ctex` is also required.
+# - The easist way is to use https://github.com/okatsn/MyTeXLifeWithJulia, which is based on https://github.com/okatsn/MyTeXLife where `fonts-noto-cjk` is available.
 
 using CSV, DataFrames, Markdown
 using Literate, Weave
@@ -49,14 +55,7 @@ for row in eachrow(localtable)
 
 
     # Weave to PDF
-    weave(joinpath(dir_temp(), md_name * ".md"); informat="markdown", doctype="md2pdf", out_path=dir_temp(), template=latex_template)
-    # KEYNOTE:
-    # - The default template uses font lmodern. You may need `sudo apt-get install lmodern` if this font is not available yet in your machine. See also the default [md2pdf.tpl in Weave.jl](https://github.com/JunoLab/Weave.jl/blob/master/templates/md2pdf.tpl)
-    #
-    # LaTeX support:
-    # - Font that supports Chinese is required. You may need `sudo apt install fonts-noto-cjk`
-    # - `ctex` is also required.
-    # - The easist way is to use https://github.com/okatsn/MyTeXLifeWithJulia, which is based on https://github.com/okatsn/MyTeXLife where `fonts-noto-cjk` is available.
+    weave(joinpath(dir_temp(), md_name * ".md"); informat="markdown", doctype="md2pdf", out_path=dir_temp(), template=latex_template, latex_cmd=["xelatex", "-shell-escape", "-halt-on-error"])
 
     # Add Password to PDF
     weavedpdf = dir_temp(md_name * ".pdf")
@@ -65,5 +64,5 @@ for row in eachrow(localtable)
     # sudo apt-get update
     # # This is for qpdf
     # sudo apt-get install qpdf
-    mv(weavedpdf, dir_pdf(md_name * ".pdf"))
+    mv(weavedpdf, dir_pdf(md_name * ".pdf"), force=true)
 end
