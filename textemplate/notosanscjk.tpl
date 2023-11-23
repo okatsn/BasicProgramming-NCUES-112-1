@@ -1,9 +1,12 @@
 \documentclass[12pt,a4paper]{article}
 
 \usepackage[a4paper,text={16.5cm,25.2cm},centering]{geometry}
-\usepackage{ctex} % For CJK support
-\usepackage{fontspec}
-\setmainfont{Noto Serif CJK TC} % Specify Noto Sans CJK as the main font
+
+% Weave with xelatex this template works in the environment of MyTeXLifeWithJulia of MyTeXLife:2023
+\usepackage{xeCJK}
+\setCJKmainfont{Noto Sans CJK TC} % Specify Noto Sans CJK as the main font
+
+
 \usepackage{amssymb,amsmath}
 \usepackage{bm}
 \usepackage{graphicx}
