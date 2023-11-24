@@ -9,6 +9,8 @@
 # !!! note Currently you cannot execute this script in CI.yml
 #     * This cannot be done since this script (the weave part) not only depends on julia, but also depends on
 #       qpdf and a lot of LaTeX things.
+# CHECKPOINT: Run container MyTeXLifeWithJulia in CI.yml
+# - Currently it failed at `actions/checkout@v3` with "Error: EACCES: permission denied".
 using CSV, DataFrames, Markdown
 using Literate, Weave
 using Random
