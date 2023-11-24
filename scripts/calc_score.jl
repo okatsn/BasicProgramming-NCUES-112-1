@@ -4,11 +4,15 @@
 # - `weave` with `doctype=md2pdf` can run only in the environment where LaTeX and related packages were available, such as `MyTeXLifeWithJulia`. Github actions will easily fail if the environment have not been correctly set up.
 # - The default template ([md2pdf.tpl in Weave.jl](https://github.com/JunoLab/Weave.jl/blob/master/templates/md2pdf.tpl)) uses font lmodern; it will fail if this font is not found in your system. `sudo apt-get install lmodern` do the installation of the font. Noted that this font does not support Chinese.
 # - To support Chinese, use `sudo apt install fonts-noto-cjk`.
-# - `ctex` is also required.
+# - `ctex` is also required when `\usepackage{ctex}` and `\setmainfont{Noto Sans CJK TC}`. However, I recommend use `\usepackage{xeCJK}` and `\setCJKmainfont{Noto Sans CJK TC}` instead (which provides more comprehensive CJK supports)
 # - The easist way is to use https://github.com/okatsn/MyTeXLifeWithJulia, which is based on https://github.com/okatsn/MyTeXLife where `fonts-noto-cjk` is available.
 # !!! note Currently you cannot execute this script in CI.yml
 #     * This cannot be done since this script (the weave part) not only depends on julia, but also depends on
 #       qpdf and a lot of LaTeX things.
+# Instruction:
+# - Run this script in when activating `BasicProgrammingNCUES1121`
+# - `git stash` all changes (pdfs generated under `docs/src/assets/pdf` according to `dir_pdf`)
+# - `git checkout gh-pages`, `git stash pop`, commit these pdfs and push.
 using CSV, DataFrames, Markdown
 using Literate, Weave
 using Random
