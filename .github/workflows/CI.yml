@@ -8,8 +8,7 @@ on:
     push:
         branches:
             - main
-            - trying-pretty-table
-        # tags: ["*"]
+        tags: ["*"]
         # paths:
         #     - docs/src/*.md
         #     - docs/make.jl
