@@ -46,7 +46,7 @@ tb1 = @chain score1 begin #hide
     groupby(:Evaluator) #hide
     combine(nrow => "已評組員數") #hide
 end #hide
-mdtable2(tb1) #hide
+mdtable1(tb1) #hide
 
 
 # ### 受評者摘要
@@ -55,4 +55,4 @@ tb2 = @chain score1 begin #hide
     groupby(:Evaluatee) #hide
     combine(nrow => "被評次數") #hide
 end #hide
-mdtable2(tb2) #hide
+mdtable1(tb2) #hide
