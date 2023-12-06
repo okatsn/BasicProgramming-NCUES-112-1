@@ -32,8 +32,9 @@ score1 = select(score, #hide
     "評分者姓名(我的名字)" => :Evaluator, #hide
     "被評者姓名(組員姓名)" => :Evaluatee #hide
 ) #hide
+nothing #hide
 
-### 評分者摘要
+# ### 評分者摘要
 
 tb1 = @chain score1 begin #hide
     groupby(:Evaluator) #hide
@@ -41,9 +42,7 @@ tb1 = @chain score1 begin #hide
 end #hide
 
 
-#-
-
-### 受評者摘要
+# ### 受評者摘要
 
 tb2 = @chain score1 begin #hide
     groupby(:Evaluatee) #hide
