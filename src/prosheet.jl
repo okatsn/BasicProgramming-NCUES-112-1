@@ -10,6 +10,9 @@
     keys_to_url = ["RawScore", "url"]
 end
 
+@kwdef struct GroupScore <: GoogleSheetIdentifier
+    keys_to_url = ["GroupScore", "url"]
+end
 
 
 """
