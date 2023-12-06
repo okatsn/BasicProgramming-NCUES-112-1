@@ -13,6 +13,7 @@ GoogleDrive = "91feb7a0-3508-11ea-1e8e-afea2c1c9a19"
 JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
 Literate = "98b081ad-f1c9-55d3-8b20-4c87d4299306"
 Markdown = "d6f4376e-aef5-505a-96c1-9c027394607a"
+SMTPClient = "c35d69d1-b747-5018-a192-25bc5e63c83d"
 StatsBase = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
 Weave = "44d3d7a6-8a23-5bf8-98c5-b353f8df5ec9"
 
