@@ -9,10 +9,10 @@ on:
         branches:
             - main
             - trying-pretty-table
-        tags: ["*"]
-        paths:
-            - docs/src/*.md
-            - docs/make.jl
+        # tags: ["*"]
+        # paths:
+        #     - docs/src/*.md
+        #     - docs/make.jl
     schedule:
         - cron: "0 0 * * 2" # Run every Tuesday at midnight UTC
 
