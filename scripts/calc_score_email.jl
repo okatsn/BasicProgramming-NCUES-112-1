@@ -36,7 +36,7 @@ message = html"""
 
 """
 
-message = get_mime_msg(message)
+message = get_mime_msg(message) # do this if message is HTML
 
 rcpt = to = ["<okatsn@gmail.com>"]
 # cc = ["<bar@test.com>"]
