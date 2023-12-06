@@ -7,6 +7,7 @@
 ## 個人成績查詢
 
 ```@eval
+# Generate a list of PDF files
 using OkFiles, BasicProgrammingNCUES1121, Markdown
 flist = filelist(dir_pdf(); join=false) # read pdf in the path of BasicProgrammingNCUES1121
 rpath = joinpath.(Ref(".."), Ref("assets"), Ref("pdf"), flist) # A dynamic list of paths to pdf demonstrated on the GitHub Pages; each path is relative to the directory of `docs/src`. # KEYNOTE: If `dir_pdf()` had changed, this path might be invalid.

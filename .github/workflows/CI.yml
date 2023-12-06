@@ -54,6 +54,10 @@ jobs:
           julia --project=@. -e '
             include("scripts/score_summary.jl")' ${{ secrets.GOOGLE_SHEET_ID }}
         # activate at current directory and execute the script, to generate the image in document.
+      - run: |
+          julia --project=@. -e 'include("scripts/literate_score_group.jl")' ${{ secrets.GOOGLE_SHEET_GROUPSCORE }}
+        # Generate the score page (markdown).
+        # KEYNOTE: Secrets GOOGLE_SHEET_GROUPSCORE and GOOGLE_SHEET_ID should be added to this repo.
       - uses: julia-actions/julia-docdeploy@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

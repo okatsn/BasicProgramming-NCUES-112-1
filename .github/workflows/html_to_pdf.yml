@@ -4,11 +4,13 @@ permissions:
   contents: write
 
 on:
-  push:
-    # This action can be triggered on any branch with any of the `paths` being pushed.
-    paths:
-      - docs/src/*.md
-      - docs/make.jl
+  workflow_dispatch:
+  # push:
+  #   # This action can be triggered on any branch with any of the `paths` being pushed.
+  #   paths:
+  #     - docs/src/*.md
+  #     - docs/make.jl
+
 jobs:
   convert-to-pdf:
     runs-on: ubuntu-latest
