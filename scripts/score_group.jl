@@ -15,6 +15,7 @@ using BasicProgrammingNCUES1121, DataFrames#hide
 using Chain#hide
 using PrettyTables#hide
 using HypertextLiteral#hide
+using Markdown#hide
 using Suppressor#hide
 
 # # An example for ARGS: #src
@@ -29,7 +30,11 @@ cloudscore = @suppress readgsheet("https://docs.google.com/spreadsheets/d/YOUR_G
 # CHECKPOINT: No method supports prosheet yet #src
 # prosheet!(cloudscore) #src
 
-mdtable1(df) = pretty_table(df; backend=Val(:markdown), header=names(df)) #hide
+function mdtable1(df) #hide
+    io = IOBuffer() #hide
+    pretty_table(io, df; backend=Val(:markdown), header=names(df)) #hide
+    Markdown.parse(String(take!(io))) #hide
+end #hide
 mdtable2(df) = @htl "$df" #hide
 score = cloudscore.data #hide
 score1 = select(score, #hide
