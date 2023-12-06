@@ -4,71 +4,73 @@
 
 name: CI
 on:
-  push:
-    branches:
-      - main
-    tags: ["*"]
-    paths:
-      - docs/src/*.md
-      - docs/make.jl
-  schedule:
-    - cron: "0 0 * * 2" # Run every Tuesday at midnight UTC
+    workflow_dispatch:
+    push:
+        branches:
+            - main
+            - trying-pretty-table
+        tags: ["*"]
+        paths:
+            - docs/src/*.md
+            - docs/make.jl
+    schedule:
+        - cron: "0 0 * * 2" # Run every Tuesday at midnight UTC
 
 concurrency:
-  # Skip intermediate builds: always.
-  # Cancel intermediate builds: only if it is a pull request build.
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: ${{ startsWith(github.ref, 'refs/pull/') }}
+    # Skip intermediate builds: always.
+    # Cancel intermediate builds: only if it is a pull request build.
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: ${{ startsWith(github.ref, 'refs/pull/') }}
 jobs:
-  test:
-    name: Julia ${{ matrix.version }} - ${{ matrix.os }} - ${{ matrix.arch }} - ${{ github.event_name }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        version:
-          - "1.9"
-          - "nightly"
-        os:
-          - ubuntu-latest
-        arch:
-          - x64
-    steps:
-      - uses: actions/checkout@v3
-      - uses: julia-actions/setup-julia@v1
-        with:
-          version: ${{ matrix.version }}
-          arch: ${{ matrix.arch }}
-      - uses: julia-actions/cache@v1
-      - uses: okatsn/add-registry@v1
-      - uses: julia-actions/julia-buildpkg@v1
-      - uses: julia-actions/julia-runtest@v1
-  docs:
-    name: Documentation
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@v3
-      - uses: julia-actions/setup-julia@v1
-        with:
-          version: "1"
-      - uses: okatsn/add-registry@v1
-      - uses: julia-actions/julia-buildpkg@v1
-      - run: |
-          julia --project=@. -e '
-            include("scripts/score_summary.jl")' ${{ secrets.GOOGLE_SHEET_ID }}
-        # activate at current directory and execute the script, to generate the image in document.
-      - run: |
-          julia --project=@. -e 'include("scripts/literate_score_group.jl")' ${{ secrets.GOOGLE_SHEET_GROUPSCORE }}
-        # Generate the score page (markdown).
-        # KEYNOTE: Secrets GOOGLE_SHEET_GROUPSCORE and GOOGLE_SHEET_ID should be added to this repo.
-      - uses: julia-actions/julia-docdeploy@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: |
-          julia --project=docs -e '
-            using Documenter: DocMeta, doctest
-            using BasicProgrammingNCUES1121
-            DocMeta.setdocmeta!(BasicProgrammingNCUES1121, :DocTestSetup, :(using BasicProgrammingNCUES1121); recursive=true)
-            doctest(BasicProgrammingNCUES1121)'
+    test:
+        name: Julia ${{ matrix.version }} - ${{ matrix.os }} - ${{ matrix.arch }} - ${{ github.event_name }}
+        runs-on: ${{ matrix.os }}
+        strategy:
+            fail-fast: false
+            matrix:
+                version:
+                    - "1.9"
+                    - "nightly"
+                os:
+                    - ubuntu-latest
+                arch:
+                    - x64
+        steps:
+            - uses: actions/checkout@v3
+            - uses: julia-actions/setup-julia@v1
+              with:
+                  version: ${{ matrix.version }}
+                  arch: ${{ matrix.arch }}
+            - uses: julia-actions/cache@v1
+            - uses: okatsn/add-registry@v1
+            - uses: julia-actions/julia-buildpkg@v1
+            - uses: julia-actions/julia-runtest@v1
+    docs:
+        name: Documentation
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+        steps:
+            - uses: actions/checkout@v3
+            - uses: julia-actions/setup-julia@v1
+              with:
+                  version: "1"
+            - uses: okatsn/add-registry@v1
+            - uses: julia-actions/julia-buildpkg@v1
+            - run: |
+                  julia --project=@. -e '
+                    include("scripts/score_summary.jl")' ${{ secrets.GOOGLE_SHEET_ID }}
+              # activate at current directory and execute the script, to generate the image in document.
+            - run: |
+                  julia --project=@. -e 'include("scripts/literate_score_group.jl")' ${{ secrets.GOOGLE_SHEET_GROUPSCORE }}
+              # Generate the score page (markdown).
+              # KEYNOTE: Secrets GOOGLE_SHEET_GROUPSCORE and GOOGLE_SHEET_ID should be added to this repo.
+            - uses: julia-actions/julia-docdeploy@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            - run: |
+                  julia --project=docs -e '
+                    using Documenter: DocMeta, doctest
+                    using BasicProgrammingNCUES1121
+                    DocMeta.setdocmeta!(BasicProgrammingNCUES1121, :DocTestSetup, :(using BasicProgrammingNCUES1121); recursive=true)
+                    doctest(BasicProgrammingNCUES1121)'
