@@ -17,7 +17,7 @@ makedocs(;
     pages=[
         "Home" => "index.md",
         "課程須知" => "info.md",
-        "課堂測驗成績" => "score.md"]
+        "課堂測驗成績" => "score_group.md"]
 )
 
 deploydocs(;
