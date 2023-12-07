@@ -9,9 +9,9 @@ on:
         branches:
             - main
         tags: ["*"]
-        # paths:
-        #     - docs/src/*.md
-        #     - docs/make.jl
+        paths:
+            - docs/src/*.md
+            - docs/make.jl
     schedule:
         - cron: "0 0 * * 2" # Run every Tuesday at midnight UTC
 

@@ -25,7 +25,7 @@ url = "smtps://smtp.gmail.com:465"
 
 
 
-subject = "組內互評表單與認證碼"
+subject = "基礎程式語言-組內互評表單與認證碼"
 from = "<tsung.hsi@g.ncu.edu.tw>"
 
 
@@ -39,7 +39,7 @@ for row in eachrow(df)
 
     <ul>
     <li>表單需登入Google帳號</li>
-    <li>您的驗證碼為: $(row.password)</li>
+    <li>您的驗證碼(3位大寫字母+4位數字)為: $(row.password)</li>
     <li>為了驗證作答者的身分，填答時請務必輸入正確的驗證碼。</li>
     </ul>
 
