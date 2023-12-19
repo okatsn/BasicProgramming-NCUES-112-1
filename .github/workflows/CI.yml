@@ -12,6 +12,7 @@ on:
         paths:
             - docs/src/*.md
             - docs/make.jl
+            - Project.toml
     schedule:
         - cron: "0 0 * * 2" # Run every Tuesday at midnight UTC
 
