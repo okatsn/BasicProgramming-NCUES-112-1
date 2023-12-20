@@ -36,10 +36,10 @@ end
 function makewide(df::DataFrame, ::QuizScore)
     @chain df begin
         unstack([:StudentID, :Test_ID], :Quiz_ID, :score)
-        transform(AsTable(r"Quiz") => ByRow(mean) => :Score)
-        unstack(:StudentID, :Test_ID, :Score)
-        transform(Cols(r"Test") .=> identity .=> (col -> Symbol("Score_" * string(col))))
-        select(:StudentID, r"Score")
+        transform(AsTable(r"Quiz") => ByRow(mean) => :Quiz_mean)
+        unstack(:StudentID, :Test_ID, :Quiz_mean)
+        transform(AsTable(Cols(r"\ATest")) => ByRow(nt -> mean(nt) * 0.4) => :Score_Quiz) # KEYNOTE: Quiz takes total 40% of the final score.
+        select(:StudentID, Cols(r"Score", r"Test"))
     end
 end
 
