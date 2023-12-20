@@ -21,6 +21,7 @@ dfq = makewide!(quizscore)
 itmbscore = @suppress readgsheet("https://docs.google.com/spreadsheets/d/$(ARGS[3])/edit?usp=sharing", InterMemberScore()) #hide
 
 getstid(str) = split(str, "-") |> last |> str -> parse(Int, str)
+
 function checkpassword(id::Int, inputcode)
     pd = Dict(password.StudentID .=> password.password)
     verified = pd[id] == inputcode
@@ -33,8 +34,10 @@ end
 df11 = @chain get_data(itmbscore) begin
     select("評分者姓名(我的名字)" => ByRow(getstid) => :Evaluator, "被評者姓名(組員姓名)" => ByRow(getstid) => :Evaluatee, :Score, "認證碼")
     select(Not("認證碼"), Cols(:Evaluator, "認證碼") => ByRow((id, pw) -> checkpassword(id, pw)) => :Verified)
+    groupby(:Evaluatee)
+    combine(:Score => mean, nrow; renamecols=false)
+    transform(:Score => ByRow(x -> x * 2) => :Score)
 end
-
 
 
 pscore = @suppress readgsheet("https://docs.google.com/spreadsheets/d/$(ARGS[4])/edit?usp=sharing", PresentationScore()) #hide
