@@ -19,6 +19,9 @@ end
     keys_to_url = ["MatlabScore", "url"]
 end
 
+@kwdef struct PresentationScore <: GoogleSheetIdentifier
+    keys_to_url = ["PresentationScore", "url"]
+end
 
 
 """

@@ -10,7 +10,7 @@ export projectdir, dir_temp, dir_local, dir_global, dir_pdf
 using JSON, GoogleDrive
 include("readgsheet.jl")
 export readgsheet, get_data, get_GSID, set_data!
-export QuizScore, InterMemberScore, MatlabScore
+export QuizScore, InterMemberScore, MatlabScore, PresentationScore
 
 using Chain
 include("prosheet.jl")

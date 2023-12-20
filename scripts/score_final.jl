@@ -4,6 +4,11 @@ using PrettyTables#hide
 using Markdown#hide
 using Suppressor#hide
 
-gpscore = @suppress readgsheet("https://docs.google.com/spreadsheets/d/YOUR_InterMemberScore_Sheet_IDENTIFIEER/edit?usp=sharing", InterMemberScore()) #hide
 
-score = @suppress readgsheet("https://docs.google.com/spreadsheets/d/YOUR_InterMemberScore_Sheet_IDENTIFIEER/edit?usp=sharing", InterMemberScore()) #hide
+mlabscore = @suppress readgsheet("https://docs.google.com/spreadsheets/d/$(ARGS[1])/edit?usp=sharing", MatlabScore()) #hide
+
+quizscore = @suppress readgsheet("https://docs.google.com/spreadsheets/d/$(ARGS[2])/edit?usp=sharing", QuizScore()) #hide
+
+itmbscore = @suppress readgsheet("https://docs.google.com/spreadsheets/d/$(ARGS[3])/edit?usp=sharing", InterMemberScore()) #hide
+
+pscore = @suppress readgsheet("https://docs.google.com/spreadsheets/d/$(ARGS[4])/edit?usp=sharing", PresentationScore()) #hide
