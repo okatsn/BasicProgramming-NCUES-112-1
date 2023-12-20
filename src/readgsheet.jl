@@ -53,11 +53,18 @@ function readgsheet(GSID::GoogleSheetIdentifier)
     return readgsheet(url, GSID)
 end
 
+isliteralnothing(x) = !ismissing(x) && x == "nothing"
+
+"""
+`convertnothing(df)` convert literal "nothing" in CSV file as `nothing` in the loaded `DataFrame`.
+"""
+convertnothing(rawscore) = ifelse.(isliteralnothing.(rawscore), nothing, rawscore)
 
 function readgsheet(url, GSID)
     temp = mktempdir()
     csvsheet = google_download(url, temp)
     rawscore = CSV.read(csvsheet, DataFrame)
+    rawscore = convertnothing(rawscore)
     return DataHolder(rawscore, GSID)
 end
 
