@@ -1,7 +1,8 @@
+## All about processing scores
+
 # !!! note
 #     Spreadsheet exclusive definitions reside here.
 #     Use interface in `readgsheet`.
-
 
 
 # SETME: Necessary information in credentials.json for "RawScore" entry is required.
