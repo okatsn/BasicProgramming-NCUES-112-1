@@ -8,7 +8,7 @@
 # using BasicProgrammingNCUES1121, DataFrames, CSV
 # # Generate personal report for every student according to cloud score.
 # # Hint: you can move these code to calc_score.jl for debug purposes.
-# cloudscore = readgsheet(RawScore())
+# cloudscore = readgsheet(QuizScore())
 # prosheet!(cloudscore)
 # makewide!(cloudscore)
 # localtable = CSV.read(projectdir("data", "BasicProgrammingStudentList_112-1.csv"), DataFrame)

@@ -1,8 +1,8 @@
 using BasicProgrammingNCUES1121, Literate
 
 # Please use
-# julia --project=@. -e 'include("scripts/literate_score_group.jl")' "<YOUR_GroupScore_Sheet_IDENTIFIEER>"
-Literate.markdown(projectdir("scripts", "score_group.jl"), projectdir("docs/src"), documenter=true, flavor=Literate.DocumenterFlavor(), execute=true, preprocess=c -> replace(c, "YOUR_GroupScore_Sheet_IDENTIFIEER" => ARGS[1]))
+# julia --project=@. -e 'include("scripts/literate_score_group.jl")' "<YOUR_InterMemberScore_Sheet_IDENTIFIEER>"
+Literate.markdown(projectdir("scripts", "score_group.jl"), projectdir("docs/src"), documenter=true, flavor=Literate.DocumenterFlavor(), execute=true, preprocess=c -> replace(c, "YOUR_InterMemberScore_Sheet_IDENTIFIEER" => ARGS[1]))
 
 # `documenter=true`: exports markdown that Documenter will process.
 # `execute=true`: execute the .jl script in `Literate` stage; otherwise, codes will be executed at Documenter's stage.

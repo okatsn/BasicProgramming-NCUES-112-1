@@ -31,10 +31,10 @@ set_data!(dh::DataHolder, data) = setfield!(dh, :data, data)
 Given `GSID<:GoogleSheetIdentifier`, `readgsheet(GSID::GoogleSheetIdentifier)` returns a `DataHolder` storing the data obtained from the google sheet. `GSID` must contain keys to url for indexing into  `dir_local("credentials.json")` to get the url. The url in `dir_local("credentials.json")` must be public.
 
 # Example
-Read data on cloud in `dir_local("credentials.json")` at entry `["RawScore"]["url"]`.
+Read data on cloud in `dir_local("credentials.json")` at entry `["QuizScore"]["url"]`.
 
 ```julia
-readgsheet(RawScore())
+readgsheet(QuizScore())
 ```
 
 This function depends on `GoogleDrive.jl`, it is designed to work with DVC to ensure secret data/path/url won't be push to public.

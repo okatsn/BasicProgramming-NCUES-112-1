@@ -5,14 +5,14 @@
 #     Use interface in `readgsheet`.
 
 
-# SETME: Necessary information in credentials.json for "RawScore" entry is required.
+# SETME: Necessary information in credentials.json for "QuizScore" entry is required.
 # - Add new struct <: GoogleSheetIdentifier for new entry in dir_local("credentials.json")
-@kwdef struct RawScore <: GoogleSheetIdentifier
-    keys_to_url = ["RawScore", "url"]
+@kwdef struct QuizScore <: GoogleSheetIdentifier
+    keys_to_url = ["QuizScore", "url"]
 end
 
-@kwdef struct GroupScore <: GoogleSheetIdentifier
-    keys_to_url = ["GroupScore", "url"]
+@kwdef struct InterMemberScore <: GoogleSheetIdentifier
+    keys_to_url = ["InterMemberScore", "url"]
 end
 
 @kwdef struct MatlabScore <: GoogleSheetIdentifier
@@ -46,9 +46,9 @@ function makewide!(dh::DataHolder)
 end
 
 """
-`prosheet(df::DataFrame, RawScore)` processes `df = readgsheet(RawScore())`. It returns `DataFrame`.
+`prosheet(df::DataFrame, QuizScore)` processes `df = readgsheet(QuizScore())`. It returns `DataFrame`.
 """
-function prosheet(df::DataFrame, ::RawScore)
+function prosheet(df::DataFrame, ::QuizScore)
     score2 = @chain df begin
         select(:Test_ID => ByRow(String),
             "Name-ID" => ByRow(str -> String.(split(str, "-"))) => [:Name, :StudentID],
@@ -63,4 +63,4 @@ function prosheet(df::DataFrame, ::RawScore)
     return score2
 end
 
-makewide(df::DataFrame, ::RawScore) = unstack(df, [:StudentID, :Test_ID], :Quiz_ID, :score)
+makewide(df::DataFrame, ::QuizScore) = unstack(df, [:StudentID, :Test_ID], :Quiz_ID, :score)

@@ -20,12 +20,12 @@ using Suppressor#hide
 
 # # An example for ARGS: #src
 # ARGS = ["https://docs.google.com/spreadsheets/d/XXXX/edit?usp=sharing"]; #src
-# YOUR_GroupScore_Sheet_IDENTIFIEER = ARGS[1] #src
+# YOUR_InterMemberScore_Sheet_IDENTIFIEER = ARGS[1] #src
 
 # KEYNOTE: Suppressor is required otherwise google sheet url will be printed. #src
-cloudscore = @suppress readgsheet("https://docs.google.com/spreadsheets/d/YOUR_GroupScore_Sheet_IDENTIFIEER/edit?usp=sharing", GroupScore()) #hide
+cloudscore = @suppress readgsheet("https://docs.google.com/spreadsheets/d/YOUR_InterMemberScore_Sheet_IDENTIFIEER/edit?usp=sharing", InterMemberScore()) #hide
 # # In your local machine: #src
-# cloudscore = readgsheet(GroupScore()) #src
+# cloudscore = readgsheet(InterMemberScore()) #src
 
 # CHECKPOINT: No method supports prosheet yet #src
 # prosheet!(cloudscore) #src
