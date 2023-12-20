@@ -12,7 +12,7 @@ include("readgsheet.jl")
 export readgsheet, get_data, get_GSID, set_data!
 export QuizScore, InterMemberScore, MatlabScore, PresentationScore
 
-using Chain
+using Chain, Statistics
 include("prosheet.jl")
 export prosheet!, makewide!
 end

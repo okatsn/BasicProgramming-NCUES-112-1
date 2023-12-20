@@ -11,6 +11,31 @@
     keys_to_url = ["QuizScore", "url"]
 end
 
+"""
+`prosheet(df::DataFrame, QuizScore)` processes `df = readgsheet(QuizScore())`. It returns `DataFrame`.
+"""
+function prosheet(df::DataFrame, ::QuizScore)
+    score2 = @chain df begin
+        select(:Test_ID => ByRow(String),
+            "Name-ID" => ByRow(str -> String.(split(str, "-"))) => [:Name, :StudentID],
+            Cols(r"Quiz") .=> ByRow(Float64) => (x -> replace(x, " " => "")) # Downloaded Google Sheet has an extra whitespace
+            ; renamecols=false
+        )
+        transform(:StudentID => ByRow(str -> parse(Int, str)); renamecols=false)
+        stack(Cols(r"Quiz"), [:StudentID, :Test_ID]; variable_name=:Quiz_ID, value_name=:score)
+    end
+
+    @assert !any((score2.score .> 100.0) .| (score2.score .< 0.0))
+    return score2
+end
+
+function makewide(df::DataFrame, ::QuizScore)
+    df1 = unstack(df, [:StudentID, :Test_ID], :Quiz_ID, :score)
+    transform!(df1, AsTable(r"Quiz") => ByRow(mean) => :Score)
+    unstack(df1, :StudentID, :Test_ID, :Score)
+end
+
+
 @kwdef struct InterMemberScore <: GoogleSheetIdentifier
     keys_to_url = ["InterMemberScore", "url"]
 end
@@ -47,23 +72,3 @@ function makewide!(dh::DataHolder)
         )
     )
 end
-
-"""
-`prosheet(df::DataFrame, QuizScore)` processes `df = readgsheet(QuizScore())`. It returns `DataFrame`.
-"""
-function prosheet(df::DataFrame, ::QuizScore)
-    score2 = @chain df begin
-        select(:Test_ID => ByRow(String),
-            "Name-ID" => ByRow(str -> String.(split(str, "-"))) => [:Name, :StudentID],
-            Cols(r"Quiz") .=> ByRow(Float64) => (x -> replace(x, " " => "")) # Downloaded Google Sheet has an extra whitespace
-            ; renamecols=false
-        )
-        transform(:StudentID => ByRow(str -> parse(Int, str)); renamecols=false)
-        stack(Cols(r"Quiz"), [:StudentID, :Test_ID]; variable_name=:Quiz_ID, value_name=:score)
-    end
-
-    @assert !any((score2.score .> 100.0) .| (score2.score .< 0.0))
-    return score2
-end
-
-makewide(df::DataFrame, ::QuizScore) = unstack(df, [:StudentID, :Test_ID], :Quiz_ID, :score)
