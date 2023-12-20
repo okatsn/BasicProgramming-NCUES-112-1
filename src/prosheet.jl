@@ -14,6 +14,11 @@ end
     keys_to_url = ["GroupScore", "url"]
 end
 
+@kwdef struct MatlabScore <: GoogleSheetIdentifier
+    keys_to_url = ["MatlabScore", "url"]
+end
+
+
 
 """
 `prosheet!(dh::DataHolder)`
