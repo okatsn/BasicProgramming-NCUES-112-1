@@ -40,14 +40,32 @@ end
     keys_to_url = ["InterMemberScore", "url"]
 end
 
+function prosheet(df::DataFrame, ::InterMemberScore)
+    df11 = @chain df begin
+        select("評分者姓名(我的名字)" => ByRow(getstid) => :Evaluator, "被評者姓名(組員姓名)" => ByRow(getstid) => :Evaluatee, :Score, "認證碼")
+        groupby(:Evaluatee)
+        combine(:Score => mean, nrow; renamecols=false)
+        transform(:Score => ByRow(x -> x * 2) => :Score)
+        select(Not(:Evaluatee), :Evaluatee => identity => :StudentID)
+    end
+    return df11
+end
+
 @kwdef struct MatlabScore <: GoogleSheetIdentifier
     keys_to_url = ["MatlabScore", "url"]
 end
+
+prosheet(df::DataFrame, ::MatlabScore) = df
+makewide(df::DataFrame, ::MatlabScore) = select!(df, [:StudentID], :Score => :Score_YenYu)
+
+
 
 @kwdef struct PresentationScore <: GoogleSheetIdentifier
     keys_to_url = ["PresentationScore", "url"]
 end
 
+prosheet(df::DataFrame, ::MatlabScore) = df
+makewide(df::DataFrame, ::MatlabScore) = select!(df, [:StudentID], :Score => :Score_CCC)
 
 """
 `prosheet!(dh::DataHolder)`
