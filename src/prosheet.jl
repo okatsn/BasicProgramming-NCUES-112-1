@@ -1,12 +1,16 @@
 ## All about processing scores
-
 # !!! note
 #     Spreadsheet exclusive definitions reside here.
 #     Use interface in `readgsheet`.
+# Procedure:
+# 1. Define a struct <: GoogleSheetIdentifier
+# 2. Add secret information in dir_local("credentials.json"), and dvc commit and push.
+# 3. Define `prosheet` and `makewide`; both of them should return a `DataFrame`. (there is a common interface and thus no need to define the in-place version)
+# Use:
+# - Use `prosheet!` for preprocessing, and `makewide!` for outerjoin.
 
 
-# SETME: Necessary information in credentials.json for "QuizScore" entry is required.
-# - Add new struct <: GoogleSheetIdentifier for new entry in dir_local("credentials.json")
+# ## QuizScore
 @kwdef struct QuizScore <: GoogleSheetIdentifier
     keys_to_url = ["QuizScore", "url"]
 end
@@ -30,12 +34,18 @@ function prosheet(df::DataFrame, ::QuizScore)
 end
 
 function makewide(df::DataFrame, ::QuizScore)
-    df1 = unstack(df, [:StudentID, :Test_ID], :Quiz_ID, :score)
-    transform!(df1, AsTable(r"Quiz") => ByRow(mean) => :Score)
-    unstack(df1, :StudentID, :Test_ID, :Score)
+    @chain df begin
+        unstack([:StudentID, :Test_ID], :Quiz_ID, :score)
+        transform(AsTable(r"Quiz") => ByRow(mean) => :Score)
+        unstack(:StudentID, :Test_ID, :Score)
+        transform(Cols(r"Test") .=> identity .=> (col -> Symbol("Score_" * string(col))))
+        select(:StudentID, r"Score")
+    end
 end
 
 
+
+# ## InterMemberScore
 @kwdef struct InterMemberScore <: GoogleSheetIdentifier
     keys_to_url = ["InterMemberScore", "url"]
 end
@@ -44,29 +54,35 @@ function prosheet(df::DataFrame, ::InterMemberScore)
     df11 = @chain df begin
         select("評分者姓名(我的名字)" => ByRow(getstid) => :Evaluator, "被評者姓名(組員姓名)" => ByRow(getstid) => :Evaluatee, :Score, "認證碼")
         groupby(:Evaluatee)
-        combine(:Score => mean, nrow; renamecols=false)
-        transform(:Score => ByRow(x -> x * 2) => :Score)
+        combine(:Score => mean, nrow => :EvaluatorNumber; renamecols=false)
+        select(Not(:Score), :Score => ByRow(x -> x * 2) => :Score_InterMember)
         select(Not(:Evaluatee), :Evaluatee => identity => :StudentID)
     end
     return df11
 end
 
+makewide(df::DataFrame, ::InterMemberScore) = df
+
+# ## MatlabScore
 @kwdef struct MatlabScore <: GoogleSheetIdentifier
     keys_to_url = ["MatlabScore", "url"]
 end
 
-prosheet(df::DataFrame, ::MatlabScore) = df
-makewide(df::DataFrame, ::MatlabScore) = select!(df, [:StudentID], :Score => :Score_YenYu)
+prosheet(df::DataFrame, ::MatlabScore) = select(df, [:StudentID], :Score => :Score_YenYu)
+makewide(df::DataFrame, ::MatlabScore) = df
 
 
-
+# ## PresentationScore
 @kwdef struct PresentationScore <: GoogleSheetIdentifier
     keys_to_url = ["PresentationScore", "url"]
 end
 
-prosheet(df::DataFrame, ::MatlabScore) = df
-makewide(df::DataFrame, ::MatlabScore) = select!(df, [:StudentID], :Score => :Score_CCC)
+prosheet(df::DataFrame, ::PresentationScore) = select(df, [:StudentID], :Score => :Score_CCC)
+makewide(df::DataFrame, ::PresentationScore) = df
 
+
+
+# ## Common interface
 """
 `prosheet!(dh::DataHolder)`
 """
@@ -77,6 +93,7 @@ function prosheet!(dh::DataHolder)
             get_GSID(dh),
         )
     )
+    return dh
 end
 
 """
@@ -89,4 +106,5 @@ function makewide!(dh::DataHolder)
             get_GSID(dh),
         )
     )
+    return dh
 end
