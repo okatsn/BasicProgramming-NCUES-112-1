@@ -40,14 +40,22 @@ end
     keys_to_url = ["InterMemberScore", "url"]
 end
 
+
 @kwdef struct MatlabScore <: GoogleSheetIdentifier
     keys_to_url = ["MatlabScore", "url"]
 end
+
+prosheet(df::DataFrame, ::MatlabScore) = df
+makewide(df::DataFrame, ::MatlabScore) = select!(df, [:StudentID], :Score => :Score_YenYu)
+
+
 
 @kwdef struct PresentationScore <: GoogleSheetIdentifier
     keys_to_url = ["PresentationScore", "url"]
 end
 
+prosheet(df::DataFrame, ::MatlabScore) = df
+makewide(df::DataFrame, ::MatlabScore) = select!(df, [:StudentID], :Score => :Score_CCC)
 
 """
 `prosheet!(dh::DataHolder)`
