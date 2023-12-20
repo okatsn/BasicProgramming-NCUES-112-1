@@ -18,17 +18,21 @@ function checkpassword(id::Int, inputcode)
     return verified
 end
 
-function verify(itmbscore)
+function pswdverify(itmbscore)
     select(get_data(itmbscore), Cols("評分者姓名(我的名字)", "認證碼") => ByRow((id, pw) -> checkpassword(getstid(id), pw)) => :Verified) # simply test
     return itmbscore
 end
 
-function test(df)
+function basictest(df)
     for row in eachrow(df)
         @test 80.0 <= row.Score_CCC <= 90.0
         @test 0.0 <= row.Score_YenYu <= 50.0
         @test 2.0 <= row.Score_InterMember <= 10.0
         @test 0.0 <= (row.Final_Score - row.Score_CCC - row.Score_YenYu) <= 40.0
+        @test 0.0 <= row.Score_Quiz <= 40.0
+        @test 0.0 <= row.Final_Score <= 100.0
+        quizmean = getindex(row, r"Test") |> mean
+        @test row.Score_Quiz == quizmean
     end
     return df
 end
@@ -40,14 +44,14 @@ quizscore = @suppress readgsheet("https://docs.google.com/spreadsheets/d/$(ARGS[
 quizscore |> prosheet! |> makewide!
 
 itmbscore = @suppress readgsheet("https://docs.google.com/spreadsheets/d/$(ARGS[3])/edit?usp=sharing", InterMemberScore()) #hide
-itmbscore |> verify |> prosheet! |> makewide!
+itmbscore |> pswdverify |> prosheet! |> makewide!
 
 
 
 pscore = @suppress readgsheet("https://docs.google.com/spreadsheets/d/$(ARGS[4])/edit?usp=sharing", PresentationScore()) #hide
 pscore |> prosheet! |> makewide!
 
-finaltable0 = outerjoin(get_data.(
+finaltable0 = outerjoin(password, get_data.(
         [pscore, mlabscore, quizscore, itmbscore]
     )...;
     on=:StudentID)
@@ -55,7 +59,7 @@ finaltable0 = outerjoin(get_data.(
 
 finaltable = @chain finaltable0 begin
     transform(AsTable(Cols(r"Score\_")) => ByRow(nt -> sum(nt)) => :Final_Score)
-    select(:StudentID, r"Test", r"Score")
+    select(:StudentID, :Name, r"Test", r"Score")
 end
 
-test(finaltable)
+basictest(finaltable)
