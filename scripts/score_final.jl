@@ -35,4 +35,16 @@ itmbscore |> verify |> prosheet! |> makewide!
 pscore = @suppress readgsheet("https://docs.google.com/spreadsheets/d/$(ARGS[4])/edit?usp=sharing", PresentationScore()) #hide
 pscore |> prosheet! |> makewide!
 
-outerjoin(get_data(pscore), get_data(itmbscore); on=:StudentID)
+finaltable = outerjoin(get_data.(
+        [pscore, mlabscore, quizscore, itmbscore]
+    )...;
+    on=:StudentID)
+
+
+@chain finaltable begin
+    transform(AsTable(Cols(r"Score_Test\d")) => ByRow(nt -> mean(nt) * 0.4) => :CCC_Quiz)
+    transform(AsTable([:Score_CCC, :Score_InterMember]) => ByRow(sum) => :CCC_Proj)
+    transform(:Score_YenYu => :YenYu_all)
+    transform(AsTable(Cols(r"CCC_", r"YenYu")) => ByRow(sum) => :Final_Score)
+    select(:StudentID, r"Score")
+end
