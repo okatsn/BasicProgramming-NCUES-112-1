@@ -50,11 +50,11 @@ end
     keys_to_url = ["InterMemberScore", "url"]
 end
 
-function prosheet(df::DataFrame, ::InterMemberScore)
+function prosheet(df::DataFrame, IM::InterMemberScore)
     df11 = @chain df begin
         select("評分者姓名(我的名字)" => ByRow(getstid) => :Evaluator, "被評者姓名(組員姓名)" => ByRow(getstid) => :Evaluatee, :Score, "認證碼")
         groupby(:Evaluatee)
-        combine(:Score => mean, nrow => :EvaluatorNumber; renamecols=false)
+        combine(:Score => (score -> mean(score, IM)), nrow => :EvaluatorNumber; renamecols=false)
         select(Not(:Score), :Score => ByRow(x -> x * 2) => :Score_InterMember)
         select(Not(:Evaluatee), :Evaluatee => identity => :StudentID)
     end
