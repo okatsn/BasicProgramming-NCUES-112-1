@@ -96,7 +96,7 @@ end
 
 ft = @chain finaltable begin
     outerjoin(email; on=:StudentID)
-    select(:StudentID => "學號", :Name => "姓名", Cols(r"\ATest") .=> identity .=> (x -> "課堂小考 ($(split(x, "_")[end]))"), Cols(r"\AScore") .=> identity .=> replace_score)
+    select(:StudentID => "學號", :Name => "姓名", Cols(r"\ATest") .=> identity .=> (x -> "課堂小考 ($(split(x, "_")[end]))"), Cols(r"Score") .=> identity .=> replace_score)
 end
 
 
