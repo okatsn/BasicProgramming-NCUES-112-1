@@ -15,15 +15,19 @@ f = draw(plt)
 Makie.save(projectdir("docs", "src", "score_distribution.png"), f)
 
 # # Send Email
+email = CSV.read(projectdir("data", "BasicProgrammingStudentList_112-1.csv"), DataFrame)
+select!(email, :StudentID, :Name, :Email)
+
 
 quizscore = @suppress readgsheet("https://docs.google.com/spreadsheets/d/$(ARGS[2])/edit?usp=sharing", QuizScore()) #hide
 
 tables = @chain quizscore begin
+    deepcopy
     prosheet!
     get_data
     unstack([:StudentID, :Test_ID], :Quiz_ID, :score)
     groupby(:Test_ID)
     collect
+    outerjoin(_...; on=:StudentID, makeunique=true)
+    outerjoin(email; on=:StudentID)
 end
-
-quiz_detailed_wide = outerjoin(tables...; on=:StudentID, makeunique=true)
