@@ -13,3 +13,17 @@ plt = data(get_data(cloudscore)) * AlgebraOfGraphics.density() * mapping(:score)
 f = draw(plt)
 
 Makie.save(projectdir("docs", "src", "score_distribution.png"), f)
+
+# # Send Email
+
+quizscore = @suppress readgsheet("https://docs.google.com/spreadsheets/d/$(ARGS[2])/edit?usp=sharing", QuizScore()) #hide
+
+tables = @chain quizscore begin
+    prosheet!
+    get_data
+    unstack([:StudentID, :Test_ID], :Quiz_ID, :score)
+    groupby(:Test_ID)
+    collect
+end
+
+quiz_detailed_wide = outerjoin(tables...; on=:StudentID, makeunique=true)
