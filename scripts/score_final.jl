@@ -63,3 +63,61 @@ finaltable = @chain finaltable0 begin
 end
 
 basictest(finaltable)
+
+
+
+# # Send Email
+google_password = "$(ARGS[5])" # the password of TA-sender
+opt = SendOptions(
+    isSSL=true,
+    username="tsung.hsi@g.ncu.edu.tw",
+    passwd=google_password,
+)
+
+url = "smtps://smtp.gmail.com:465"
+
+
+
+subject = "基礎程式語言-分數摘要(陳建志老師)"
+from = "<tsung.hsi@g.ncu.edu.tw>"
+
+email = CSV.read(projectdir("data", "BasicProgrammingStudentList_112-1.csv"), DataFrame)
+select!(email, :StudentID, :Email)
+
+function replace_score(str)
+    @chain str begin
+        replace("Score_CCC" => "(建志-報告)")
+        replace("Score_YenYu" => "(彥宇-總分)")
+        replace("Score_Quiz" => "(建志-小考)")
+        replace("Score_InterMember" => "(建志-報告組內互評)")
+        replace("Final_Score" => "(建志-總分)")
+    end
+end
+
+ft = @chain finaltable begin
+    outerjoin(email; on=:StudentID)
+    select(:StudentID => "學號", :Name => "姓名", Cols(r"\ATest") .=> identity .=> (x -> "課堂小考 ($(split(x, "_")[end]))"), Cols(r"\AScore") .=> identity .=> replace_score)
+end
+
+
+for row in eachrow(ft)
+    # row = eachrow(ft) |> first
+    data = DataFrame(:Field => keys(row), :Content => collect(values(row)))
+    io = IOBuffer()
+    pretty_table(io, data; backend=Val(:html), standalone=true)
+    message = get_mime_msg(HTML(String(take!(io))))
+    # rcpt = to = ["<$(row.Email)>"]
+    rcpt = to = ["<okatsn@gmail.com>"]# TODO: Change to above before fire.
+
+    # cc = ["<bar@test.com>"]
+    # bcc = ["<baz@test.com>"]
+    # replyto = "<you@gmail.com>"
+
+
+
+    body = get_body(to, from, subject, message) # cc, replyto)
+    # Preview the body: String(take!(body)
+
+    # rcpt = vcat(to, cc, bcc)
+    resp = send(url, rcpt, from, body, opt)
+end
