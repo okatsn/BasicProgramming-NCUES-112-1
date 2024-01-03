@@ -5,7 +5,7 @@ using BasicProgrammingNCUES1121, DataFrames
 
 google_id = ARGS[1]
 
-cloudscore = readgsheet("https://docs.google.com/spreadsheets/d/$google_id/edit?usp=sharing", RawScore())
+cloudscore = readgsheet("https://docs.google.com/spreadsheets/d/$google_id/edit?usp=sharing", QuizScore())
 prosheet!(cloudscore)
 
 plt = data(get_data(cloudscore)) * AlgebraOfGraphics.density() * mapping(:score) * mapping(layout=:Test_ID)
