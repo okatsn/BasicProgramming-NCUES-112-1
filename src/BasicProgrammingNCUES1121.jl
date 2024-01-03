@@ -15,6 +15,8 @@ export QuizScore, InterMemberScore, MatlabScore, PresentationScore
 using Chain, Statistics
 include("prosheet.jl")
 export prosheet!, makewide!
+include("calculation.jl")
+export mean
 
 include("getstid.jl")
 export getstid # get ID (Int) for any "Name-ID" string

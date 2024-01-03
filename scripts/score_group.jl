@@ -26,8 +26,6 @@ using Suppressor#hide
 cloudscore = @suppress readgsheet("https://docs.google.com/spreadsheets/d/YOUR_InterMemberScore_Sheet_IDENTIFIEER/edit?usp=sharing", InterMemberScore()) #hide
 # # In your local machine: #src
 # cloudscore = readgsheet(InterMemberScore()) #src
-
-# CHECKPOINT: No method supports prosheet yet #src
 # prosheet!(cloudscore) #src
 
 function mdtable1(df) #hide

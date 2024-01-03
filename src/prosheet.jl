@@ -36,10 +36,10 @@ end
 function makewide(df::DataFrame, ::QuizScore)
     @chain df begin
         unstack([:StudentID, :Test_ID], :Quiz_ID, :score)
-        transform(AsTable(r"Quiz") => ByRow(mean) => :Score)
-        unstack(:StudentID, :Test_ID, :Score)
-        transform(Cols(r"Test") .=> identity .=> (col -> Symbol("Score_" * string(col))))
-        select(:StudentID, r"Score")
+        transform(AsTable(r"Quiz") => ByRow(mean) => :Quiz_mean)
+        unstack(:StudentID, :Test_ID, :Quiz_mean)
+        transform(AsTable(Cols(r"\ATest")) => ByRow(nt -> mean(nt) * 0.4) => :Score_Quiz) # KEYNOTE: Quiz takes total 40% of the final score.
+        select(:StudentID, Cols(r"Score", r"Test"))
     end
 end
 
@@ -50,11 +50,11 @@ end
     keys_to_url = ["InterMemberScore", "url"]
 end
 
-function prosheet(df::DataFrame, ::InterMemberScore)
+function prosheet(df::DataFrame, IM::InterMemberScore)
     df11 = @chain df begin
         select("評分者姓名(我的名字)" => ByRow(getstid) => :Evaluator, "被評者姓名(組員姓名)" => ByRow(getstid) => :Evaluatee, :Score, "認證碼")
         groupby(:Evaluatee)
-        combine(:Score => mean, nrow => :EvaluatorNumber; renamecols=false)
+        combine(:Score => (score -> mean(score, IM)), nrow => :EvaluatorNumber; renamecols=false)
         select(Not(:Score), :Score => ByRow(x -> x * 2) => :Score_InterMember)
         select(Not(:Evaluatee), :Evaluatee => identity => :StudentID)
     end
