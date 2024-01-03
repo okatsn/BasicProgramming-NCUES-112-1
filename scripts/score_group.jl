@@ -9,6 +9,8 @@
 #
 # ## 組內互評摘要
 
+# 請依照說明對同組組員進行評分：
+# ![](how_to_score_your_member.png)
 
 using CairoMakie, AlgebraOfGraphics #hide
 using BasicProgrammingNCUES1121, DataFrames#hide
