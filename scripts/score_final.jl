@@ -11,7 +11,7 @@ password = CSV.read(projectdir("data", "BasicProgrammingStudentList_112-1.csv"),
 select!(password, :StudentID, :Name, :password)
 function checkpassword(id::Int, inputcode)
     pd = Dict(password.StudentID .=> password.password)
-    verified = pd[id] == inputcode
+    verified = pd[id] == strip(inputcode)
     if !verified
         @error("For ID $id, input password ($inputcode) is not the true ($(pd[id]))")
     end
